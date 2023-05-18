@@ -14,6 +14,7 @@ import io.appium.java_client.*;
 import pages.HomePage;
 import report.ExtentManger;
 
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
@@ -30,6 +31,8 @@ public class BaseClass {
 
     @BeforeTest
     public static void setup(){
+        String apkPath = "src/test/java/setup/resources/phoenixuat.apk";
+        File app = new File(apkPath);
         try {
             DesiredCapabilities cap = new DesiredCapabilities();
 
@@ -39,7 +42,7 @@ public class BaseClass {
                 cap.setCapability(MobileCapabilityType.PLATFORM_VERSION,"12");
                 cap.setCapability(MobileCapabilityType.DEVICE_NAME,"Galaxy A03s");
                 cap.setCapability(MobileCapabilityType.UDID,"R9HR80HYTEJ");
-                cap.setCapability("app","/Users/horbarz/Downloads/InvestmentOneMobileApps/phoenixuat.apk");
+                cap.setCapability("app",app.getAbsolutePath());
                 cap.setCapability("appPackage","com.investment.one.phoenix");
                 cap.setCapability("appActivity", "com.investment.one.phoenix.MainActivity");
             }else if(platform.equalsIgnoreCase("ios")) {
