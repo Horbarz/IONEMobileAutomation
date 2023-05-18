@@ -39,7 +39,7 @@ public class BaseClass {
                 cap.setCapability(MobileCapabilityType.PLATFORM_VERSION,"12");
                 cap.setCapability(MobileCapabilityType.DEVICE_NAME,"Galaxy A03s");
                 cap.setCapability(MobileCapabilityType.UDID,"R9HR80HYTEJ");
-                cap.setCapability("app","/Users/horbarz/Downloads/InvestmentOneMobileApps/phoenixuat.apk");
+                cap.setCapability("app","resources/phoenixuat.apk");
                 cap.setCapability("appPackage","com.investment.one.phoenix");
                 cap.setCapability("appActivity", "com.investment.one.phoenix.MainActivity");
             }else if(platform.equalsIgnoreCase("ios")) {
