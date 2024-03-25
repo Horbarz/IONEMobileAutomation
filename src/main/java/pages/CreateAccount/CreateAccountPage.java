@@ -1,45 +1,80 @@
 package pages.CreateAccount;
 
+import com.aventstack.extentreports.App;
+import io.appium.java_client.AppiumBy;
+import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import java.util.Random;
+
 public class CreateAccountPage {
 
-    private WebDriver driver;
-    private By firstnameField = By.xpath("//*[@index='7']");
-    private By lastnameField = By.xpath("//*[@index='10']");
-    private By emailField = By.xpath("//*[@index='12']");
-    private By phoneField = By.xpath("//*[@index='14']");
-    private By createAccountBtn = By.xpath("//android.view.View[@content-desc=\"Create Account\"])[2]");
+    private AppiumDriver driver;
+    private By firstnameField = By.xpath("//*[@text='First name']");
 
-    public CreateAccountPage(WebDriver driver){
+    private By firstnameIndex = By.xpath("//*[@index='7']");
+
+    private By middlenameIndex = By.xpath("//*[@index='10']");
+    private By lastnameField = By.xpath("//*[@text='Last name']");
+
+    private By lastnameIndex = By.xpath("//*[@index='13']");
+    private By emailField = By.xpath("//*[@text='Email address']");
+
+    private By emailIndex= By.xpath("//*[@index='15']");
+    private By phoneField = By.xpath("//*[@index='17']");
+    private By createAccountBtn = By.xpath("//*[@content-desc='Create Account']");
+
+    public CreateAccountPage(AppiumDriver driver){
         this.driver = driver;
     }
 
-    public void enterNewUserInfo(String firstname, String lastname, String email, String phoneNumber){
-        WebElement firstnameDriver = driver.findElement(firstnameField);
+    public VerifyTokenPage enterNewUserInfo(String firstname, String middlename, String lastname, String email){
+        Random rnd  = new Random();
+        int phnNumber = rnd.nextInt(99999999);
+        String phoneNum = String.format("%08d",phnNumber);
+        String phoneNumber = "080"+phoneNum;
+
+        WebElement firstnameDriver = driver.findElement(firstnameIndex);
         firstnameDriver.click();
         firstnameDriver.sendKeys(firstname);
 
-        WebElement lastnameDriver = driver.findElement(lastnameField);
+        WebElement middlenameDriver = driver.findElement(middlenameIndex);
+        middlenameDriver.click();
+        middlenameDriver.sendKeys(middlename);
+
+        WebElement lastnameDriver = driver.findElement(lastnameIndex);
         lastnameDriver.click();
         lastnameDriver.sendKeys(lastname);
 
-        WebElement emailDriver = driver.findElement(emailField);
+        WebElement emailDriver = driver.findElement(emailIndex);
         emailDriver.click();
         emailDriver.sendKeys(email);
+
+        driver.navigate().back();
 
         WebElement phoneDriver = driver.findElement(phoneField);
         phoneDriver.click();
         phoneDriver.sendKeys(phoneNumber);
-    }
 
-    public VerifyTokenPage clickCreateAccountBtn(){
-        driver.findElement(createAccountBtn).click();
+        driver.navigate().back();
+        driver.findElement(AppiumBy.xpath("(//android.view.View[@content-desc=\"Create Account\"])[2]")).click();
+
+        //Send verification code
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         return new VerifyTokenPage(driver);
     }
 
-
+    public VerifyTokenPage clickCreateAccountBtn(){
+        driver.navigate().back();
+        driver.findElement(createAccountBtn).click();
+        return new VerifyTokenPage(driver);
+    }
 
 }

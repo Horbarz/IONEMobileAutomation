@@ -9,6 +9,7 @@ import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
+
 import org.testng.annotations.BeforeTest;
 import io.appium.java_client.*;
 import pages.HomePage;
@@ -31,20 +32,21 @@ public class BaseClass {
 
     @BeforeTest
     public static void setup(){
-        String apkPath = "src/test/java/setup/resources/phoenixuat.apk";
+        String apkPath = "src/test/java/setup/resources/no2fa.apk";
         File app = new File(apkPath);
         try {
             DesiredCapabilities cap = new DesiredCapabilities();
-
             String platform = "android";
             if(platform.equalsIgnoreCase("android")){
                 cap.setCapability(MobileCapabilityType.PLATFORM_NAME,"ANDROID");
-                cap.setCapability(MobileCapabilityType.PLATFORM_VERSION,"12");
-                cap.setCapability(MobileCapabilityType.DEVICE_NAME,"Galaxy A03s");
+                //cap.setCapability(MobileCapabilityType.PLATFORM_VERSION,"7.1.2");
+                //cap.setCapability(MobileCapabilityType.DEVICE_NAME,"Galaxy A03s");
+                //R9HR80HYTEJ
                 cap.setCapability(MobileCapabilityType.UDID,"R9HR80HYTEJ");
+                //cap.setCapability(MobileCapabilityType.UDID,"127.0.0.1:62001");
                 cap.setCapability("app",app.getAbsolutePath());
-                cap.setCapability("appPackage","com.investment.one.phoenix");
-                cap.setCapability("appActivity", "com.investment.one.phoenix.MainActivity");
+//                cap.setCapability("appPackage","com.investment.one.phoenix");
+//                cap.setCapability("appActivity", "com.investment.one.phoenix.MainActivity");
             }else if(platform.equalsIgnoreCase("ios")) {
                 cap.setCapability("platformName", "iOS");
                 cap.setCapability("deviceName", "iPhone 8");
@@ -71,8 +73,8 @@ public class BaseClass {
         driver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
 
         homePage = new HomePage(driver);
-
     }
+
 
     public void sampleTest(){
         System.out.println("Mobile Automation started");

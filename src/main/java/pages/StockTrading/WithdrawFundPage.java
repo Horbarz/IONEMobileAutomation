@@ -1,6 +1,8 @@
 package pages.StockTrading;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
+import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -9,7 +11,7 @@ import pages.Utils;
 
 public class WithdrawFundPage {
 
-    private WebDriver driver;
+    private AppiumDriver driver;
 
     private By amountToFundField = By.xpath("//*[@index='2']");
 
@@ -21,7 +23,7 @@ public class WithdrawFundPage {
 
 
 
-    public WithdrawFundPage(WebDriver driver){
+    public WithdrawFundPage(AppiumDriver driver){
         this.driver = driver;
     }
 
@@ -37,6 +39,7 @@ public class WithdrawFundPage {
         driver.findElement(MobileBy.AccessibilityId("Proceed")).click();
         utils.isTextPresent("Please supply a valid amount");
         amount.click();
+        amount.clear();
         amount.sendKeys(amountToWithdraw);
         utils.goBack();
         driver.findElement(MobileBy.AccessibilityId("Proceed")).click();

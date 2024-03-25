@@ -1,52 +1,110 @@
 package pages;
 
+import com.aventstack.extentreports.App;
+import io.appium.java_client.AppiumBy;
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileBy;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.BottomNav.InvestmentsPage;
-import pages.BottomNav.ProfilePage;
+import pages.BottomNav.Profile.ProfilePage;
 import pages.BottomNav.TransactionsPage;
-import pages.Home.FixedIncomePage;
-import pages.Home.SavingsPage;
-import pages.Home.StockTradingPage;
+import pages.Home.*;
+
+import java.time.Duration;
 
 public class DashboardPage {
 
-    private WebDriver driver;
+    private AppiumDriver driver;
 
-    public DashboardPage(WebDriver driver){
+    public DashboardPage(AppiumDriver driver){
 
         this.driver = driver;
     }
 
     public FixedIncomePage openFixedIncomePage(){
-        driver.findElement(MobileBy.AccessibilityId("Fixed Income")).click();
+        WebElement fixedIncomeEle = driver.findElement(AppiumBy.accessibilityId("Fixed Service Box\n" +
+                "Fixed Income"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOf(fixedIncomeEle));
+        fixedIncomeEle.click();
         return new FixedIncomePage(driver);
     }
 
     public StockTradingPage openStockTradingPage(){
-        driver.findElement(MobileBy.AccessibilityId("Stock Trading")).click();
+        driver.findElement(AppiumBy.accessibilityId("Stock Service Box\n" +
+                "Stock Trading")).click();
         return new StockTradingPage(driver);
     }
 
     public SavingsPage openSavingsPage(){
-        driver.findElement(MobileBy.AccessibilityId("Savings")).click();
+        driver.findElement(AppiumBy.accessibilityId("Savings Service Box\n" +
+                "Savings")).click();
+                //driver.findElement(AppiumBy.accessibilityId("Savings")).click();
+//        driver.findElement(AppiumBy.xpath("//android.widget.ImageView[@content-desc=\"Savings Service Box\n" +
+//                "Savings\"]"));
         return new SavingsPage(driver);
     }
 
+    public AirtimePage openAirtimePage(){
+        driver.findElement(AppiumBy.accessibilityId("Airtime Service Box\n" +
+                "Airtime")).click();
+        return new AirtimePage(driver);
+    }
+
+    public DataPage openDataPage(){
+        driver.findElement(AppiumBy.accessibilityId("Data Service Box\n" +
+                "Data")).click();
+        return new DataPage(driver);
+    }
+
+    public BillsPaymentPage openBillsPaymentPage(){
+        driver.findElement(AppiumBy.accessibilityId("Bills Service Box\n" +
+                "Bills Payment")).click();
+        return new BillsPaymentPage(driver);
+    }
+
     public InvestmentsPage openInvestments(){
-        driver.findElement(MobileBy.AccessibilityId("Investments")).click();
+        driver.findElement(AppiumBy.accessibilityId("Investments")).click();
         return new InvestmentsPage(driver);
     }
 
     public TransactionsPage openTransactions(){
-        driver.findElement(MobileBy.AccessibilityId("Transactions")).click();
+        driver.findElement(AppiumBy.accessibilityId("Transactions")).click();
         return new TransactionsPage(driver);
     }
 
     public ProfilePage openProfilePage(){
-        driver.findElement(MobileBy.AccessibilityId("Profile")).click();
+        driver.findElement(AppiumBy.accessibilityId("Profile")).click();
         return new ProfilePage(driver);
     }
+
+    public VirtualAccountPage openVirtualPage(){
+        driver.findElement(AppiumBy.accessibilityId("9977641971\n" +
+                "Providus Bank")).click();
+        return new VirtualAccountPage(driver);
+    }
+
+    public SavingsPage swipeToOpenSavingsPage(){
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        Utils utils = new Utils(driver);
+        WebElement horizontalScroll = driver.findElement(AppiumBy.xpath("//*[@class='android.widget.HorizontalScrollView']"));
+        utils.scroll(Utils.ScrollDirection.RIGHT,0.95, horizontalScroll);
+        utils.scroll(Utils.ScrollDirection.RIGHT,0.98, horizontalScroll);
+        utils.scroll(Utils.ScrollDirection.RIGHT,0.90, horizontalScroll);
+        driver.findElement(AppiumBy.xpath("//android.widget.ImageView[@content-desc=\"Savings details\n" +
+                "Savings Balance\n" +
+                "XXXXX.XX\"]/android.view.View")).click();
+        return new SavingsPage(driver);
+    }
+
+
 
 
 

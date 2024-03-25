@@ -1,12 +1,17 @@
 package pages.StockTrading;
 
+import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class DepositMoneyPage {
 
-    private WebDriver driver;
+    private AppiumDriver driver;
 
     private By amountToFundField = By.xpath("//*[@index='3']");
 
@@ -16,7 +21,7 @@ public class DepositMoneyPage {
 
 
 
-    public DepositMoneyPage(WebDriver driver){
+    public DepositMoneyPage(AppiumDriver driver){
         this.driver = driver;
     }
 
@@ -30,6 +35,9 @@ public class DepositMoneyPage {
 
     public CardFundingPage fundStockByCard(String amountToFund){
         WebElement amount = driver.findElement(amountToFundField);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOf(amount));
+
         amount.click();
         amount.sendKeys(amountToFund);
         driver.findElement(cardFundingBtn).click();
