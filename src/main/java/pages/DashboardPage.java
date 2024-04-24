@@ -89,7 +89,7 @@ public class DashboardPage {
 
     public SavingsPage swipeToOpenSavingsPage(){
         try {
-            Thread.sleep(2000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

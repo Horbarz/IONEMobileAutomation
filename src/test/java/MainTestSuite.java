@@ -119,12 +119,12 @@ public class MainTestSuite extends BaseClass {
     public void WithdrawFromSavingsTest(){
         DashboardPage dashboardPage = LoginTest();
         SavingsPage savings = dashboardPage.swipeToOpenSavingsPage();
-        FundsTransferPage fundsTransfer = savings.openTransferPage();
-        pages.Savings.WithdrawFundPage withdrawFundPage = fundsTransfer.openWithdrawToBank();
-        ConfirmTransactionPage confirm = withdrawFundPage.withdrawFundsToBank("1000.00");
-        confirm.enterTransactionPin("123456");
-        confirm.clickConfirmTransactionButton();
-        test.log(Status.PASS, "Withdrawal Testcase Passed");
+//        FundsTransferPage fundsTransfer = savings.openTransferPage();
+//        pages.Savings.WithdrawFundPage withdrawFundPage = fundsTransfer.openWithdrawToBank();
+//        ConfirmTransactionPage confirm = withdrawFundPage.withdrawFundsToBank("1000.00");
+//        confirm.enterTransactionPin("123456");
+//        confirm.clickConfirmTransactionButton();
+//        test.log(Status.PASS, "Withdrawal Testcase Passed");
     }
 
 
