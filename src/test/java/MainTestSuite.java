@@ -33,7 +33,7 @@ public class MainTestSuite extends BaseClass {
         homePage.skipSplashPage();
         LoginPage loginPage = homePage.clickLoginBtn();
         loginPage.allowNotifications();
-        DashboardPage dashboardPage = loginPage.loginToDashboard("12487", "P@ssword105");
+        DashboardPage dashboardPage = loginPage.loginToDashboard("12487", "P@55w0rd524");
         test.log(Status.PASS,"Login Test case passed");
         return dashboardPage;
     }
@@ -53,9 +53,15 @@ public class MainTestSuite extends BaseClass {
         InvestmentsPage investmentsPage = dashboardPage.openInvestments();
         StockTradingPage stocks = investmentsPage.openStockTradingPage();
         DepositMoneyPage deposit = stocks.openDepositMoneyPage();
-        WalletFundingPage fundStocksWithWallet = deposit.fundStockByWallet("5000.00");
+        WalletFundingPage fundStocksWithWallet = deposit.fundStockByWallet("2000.00");
         fundStocksWithWallet.confirmPayment();
-        homePage.goBack();
+    }
+
+    @Test
+    public void fundStockAccountWithCard(){
+        DashboardPage dashboardPage = LoginTest();
+        InvestmentsPage investmentsPage = dashboardPage.openInvestments();
+        StockTradingPage stocks = investmentsPage.openStockTradingPage();
         DepositMoneyPage depositByCard = stocks.openDepositMoneyPage();
         CardFundingPage fundStockWithCard = depositByCard.fundStockByCard("1000.00");
         String textMessage = fundStockWithCard.completePayment();
@@ -77,7 +83,7 @@ public class MainTestSuite extends BaseClass {
         StockTradingPage stocks = dashboardPage.openStockTradingPage();
         WithdrawFundPage withdrawFundPage = stocks.openWithdrawMoneyPage();
         ConfirmTransactionPage confirm = withdrawFundPage.withdrawFundsToWallet("1000.00");
-        confirm.enterTransactionPin("123455");
+        confirm.enterTransactionPin("123456");
         confirm.clickConfirmTransactionButton();
         test.log(Status.PASS, "Withdrawal Testcase Passed");
     }

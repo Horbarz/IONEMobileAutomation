@@ -26,7 +26,6 @@ public class StockTradingPage {
         WebElement portfolio_cost = driver.findElement(AppiumBy.accessibilityId("Portfolio Cost"));
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.visibilityOf(portfolio_cost));
-
         driver.findElement(AppiumBy.accessibilityId("Deposit Money")).click();
         return new DepositMoneyPage(driver);
     }

@@ -200,24 +200,26 @@ public class Utils {
 
         tapOnCoordinates(96,922);
         System.out.println(1);
-        tapOnCoordinates(99,1075);
-        Thread.sleep(2000);
-        tapOnCoordinates(276,1078);
+        tapOnCoordinates(104,1075);
         System.out.println(2);
+        tapOnCoordinates(64,1087);
         Thread.sleep(2000);
-        tapOnCoordinates(458,1078);
+        tapOnCoordinates(245,1080);
         System.out.println(3);
         Thread.sleep(2000);
-        tapOnCoordinates(103,1202);
+        tapOnCoordinates(458,1078);
         System.out.println(4);
         Thread.sleep(2000);
-        tapOnCoordinates(278,1193);
+        tapOnCoordinates(103,1202);
         System.out.println(5);
         Thread.sleep(2000);
-        tapOnCoordinates(454,1198);
+        tapOnCoordinates(278,1193);
         System.out.println(6);
+        Thread.sleep(2000);
+        tapOnCoordinates(454,1198);
+        System.out.println(7);
         Thread.sleep(10000);
-        driver.navigate().back();
+        //driver.navigate().back();
     }
 
 }

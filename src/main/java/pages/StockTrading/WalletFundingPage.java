@@ -5,6 +5,8 @@ import io.appium.java_client.MobileBy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import java.util.concurrent.TimeUnit;
+
 public class WalletFundingPage {
 
     private AppiumDriver driver;
@@ -17,6 +19,10 @@ public class WalletFundingPage {
 
     public void confirmPayment(){
         driver.findElement(MobileBy.AccessibilityId("Confirm")).click();
+//        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+
+
+
     }
 
     public void notificationMessage(){

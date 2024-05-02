@@ -32,7 +32,7 @@ public class BaseClass {
 
     @BeforeTest
     public static void setup(){
-        String apkPath = "src/test/java/setup/resources/iofs-uat-update.apk";
+        String apkPath = "src/test/java/setup/resources/iofs-uat.apk";
         File app = new File(apkPath);
         try {
             DesiredCapabilities cap = new DesiredCapabilities();
