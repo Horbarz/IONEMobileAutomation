@@ -33,7 +33,7 @@ public class MainTestSuite extends BaseClass {
         homePage.skipSplashPage();
         LoginPage loginPage = homePage.clickLoginBtn();
         loginPage.allowNotifications();
-        DashboardPage dashboardPage = loginPage.loginToDashboard("12487", "P@55w0rd524");
+        DashboardPage dashboardPage = loginPage.loginToDashboard("12487", "P@ssword105");
         test.log(Status.PASS,"Login Test case passed");
         return dashboardPage;
     }
@@ -47,6 +47,8 @@ public class MainTestSuite extends BaseClass {
         return logout;
     }
 
+
+    //Stock Broking Tests
     @Test
     public void FundStockAccountTest(){
         DashboardPage dashboardPage = LoginTest();
@@ -101,6 +103,28 @@ public class MainTestSuite extends BaseClass {
         var buyStock = stockPurchase.BuyStock("10");
         buyStock.enterTransactionPin("123456");
         //test.log(Status.PASS, "See Bids Page Opened Successfully");
+    }
+
+    @Test
+    public void SeeTrades() throws IOException {
+        DashboardPage dashboardPage = LoginTest();
+        InvestmentsPage investmentsPage = dashboardPage.openInvestments();
+        StockTradingPage stocks = investmentsPage.openStockTradingPage();
+        SeeTradesPage seeTradesPage = stocks.seeTradesPage();
+        seeTradesPage.verifyTradedOrders();
+        seeTradesPage.verifyOpenPendingOrders();
+        seeTradesPage.verifyCancelledOrders();
+        seeTradesPage.verifyRejectedOrders();
+    }
+
+    public void ViewMyStocks(){
+        DashboardPage dashboardPage = LoginTest();
+        InvestmentsPage investmentsPage = dashboardPage.openInvestments();
+        StockTradingPage stocks = investmentsPage.openStockTradingPage();
+        MyStocksPage myStocksPage = stocks.openMyStocksPage();
+        if(myStocksPage.verifyElementsOnPage()){
+            test.log(Status.PASS, "My Stocks Portfolio page displays successfully");
+        }
     }
 
 

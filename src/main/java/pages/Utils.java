@@ -25,6 +25,12 @@ public class Utils {
         this.driver = driver;
     }
 
+    public WebElement containsText(String elementText){
+        By textBy = By.xpath("//*[contains(@content-desc,'"+elementText+"')]");
+        WebElement el = driver.findElement(textBy);
+        return el;
+    }
+
     public boolean verifyElementPresent(By by) throws IOException {
         boolean isElement = false;
         try
@@ -47,7 +53,7 @@ public class Utils {
 
     public boolean isTextPresent(String text){
         try{
-            driver.findElement(MobileBy.AccessibilityId(text));
+            driver.findElement(AppiumBy.accessibilityId(text));
             return true;
         }
         catch(NoSuchElementException e){
