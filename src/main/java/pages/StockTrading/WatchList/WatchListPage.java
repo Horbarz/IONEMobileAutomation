@@ -31,6 +31,10 @@ public class WatchListPage {
         return new AddToWatchListPage(driver);
     }
 
+    public void goBackToWatchList(){
+        driver.navigate().back();
+    }
+
     public void verifyStocksAddedToWatchList(String stock){
         if(utils.isTextPresent("No stock found")){
             System.out.println("No stock found");

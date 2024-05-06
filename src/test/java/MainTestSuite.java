@@ -8,6 +8,8 @@ import pages.Home.*;
 import pages.LoginPage;
 import pages.Savings.FundsTransferPage;
 import pages.StockTrading.*;
+import pages.StockTrading.WatchList.AddToWatchListPage;
+import pages.StockTrading.WatchList.WatchListPage;
 import setup.BaseClass;
 
 import java.io.IOException;
@@ -102,7 +104,7 @@ public class MainTestSuite extends BaseClass {
         //stockPurchase.SeeBids();
         var buyStock = stockPurchase.BuyStock("10");
         buyStock.enterTransactionPin("123456");
-        //test.log(Status.PASS, "See Bids Page Opened Successfully");
+        test.log(Status.PASS, "See Bids Page Opened Successfully");
     }
 
     @Test
@@ -125,6 +127,17 @@ public class MainTestSuite extends BaseClass {
         if(myStocksPage.verifyElementsOnPage()){
             test.log(Status.PASS, "My Stocks Portfolio page displays successfully");
         }
+    }
+
+    public void viewAllWatchlist(){
+        DashboardPage dashboardPage = LoginTest();
+        InvestmentsPage investmentsPage = dashboardPage.openInvestments();
+        StockTradingPage stocks = investmentsPage.openStockTradingPage();
+        WatchListPage watchListPage = stocks.openWatchListPage();
+        watchListPage.verifyStocksAddedToWatchList("ABBEYDS");
+        watchListPage.goBackToWatchList();
+        AddToWatchListPage addToWatchListPage = watchListPage.addToWatchList();
+        addToWatchListPage.addStockToWatchlist("OANDO", "7.0");
     }
 
 
