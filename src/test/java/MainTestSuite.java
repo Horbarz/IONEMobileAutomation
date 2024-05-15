@@ -18,7 +18,8 @@ import static org.testng.Assert.*;
 
 public class MainTestSuite extends BaseClass {
 
-
+    boolean staging = true;
+//****************************************Account Creation*************************************
     @Test
     public void CreateNewAccountTest(){
         homePage.skipSplashPage();
@@ -49,8 +50,7 @@ public class MainTestSuite extends BaseClass {
         return logout;
     }
 
-
-    //Stock Broking Tests
+//*************************************Stock Broking***************************************
     @Test
     public void FundStockAccountTest(){
         DashboardPage dashboardPage = LoginTest();
@@ -94,16 +94,30 @@ public class MainTestSuite extends BaseClass {
 
 
     @Test
-    public void TradeStocks(){
+    public void BuyStocks(){
         DashboardPage dashboardPage = LoginTest();
         InvestmentsPage investmentsPage = dashboardPage.openInvestments();
         StockTradingPage stocks = investmentsPage.openStockTradingPage();
         TradeStocksPage tradeStocksPage = stocks.tradeStock();
-        var stockResult = tradeStocksPage.searchStock("mori");
+        var stockResult = tradeStocksPage.searchStock("ACCESSCORP");
         var stockPurchase = stockResult.buyStock();
         //stockPurchase.SeeBids();
         var buyStock = stockPurchase.BuyStock("10");
         buyStock.enterTransactionPin("123456");
+        test.log(Status.PASS, "See Bids Page Opened Successfully");
+    }
+
+    @Test
+    public void SellStocks(){
+        DashboardPage dashboardPage = LoginTest();
+        InvestmentsPage investmentsPage = dashboardPage.openInvestments();
+        StockTradingPage stocks = investmentsPage.openStockTradingPage();
+        TradeStocksPage tradeStocksPage = stocks.tradeStock();
+        var stockResult = tradeStocksPage.searchStock("ABBEYBDS");
+        var stockPurchase = stockResult.sellStock();
+        //stockPurchase.SeeBids();
+        var sellStock = stockPurchase.SellStock("10");
+        sellStock.enterTransactionPin("123456");
         test.log(Status.PASS, "See Bids Page Opened Successfully");
     }
 
@@ -119,6 +133,7 @@ public class MainTestSuite extends BaseClass {
         seeTradesPage.verifyRejectedOrders();
     }
 
+    @Test
     public void ViewMyStocks(){
         DashboardPage dashboardPage = LoginTest();
         InvestmentsPage investmentsPage = dashboardPage.openInvestments();
@@ -129,17 +144,26 @@ public class MainTestSuite extends BaseClass {
         }
     }
 
+    @Test
     public void viewAllWatchlist(){
         DashboardPage dashboardPage = LoginTest();
         InvestmentsPage investmentsPage = dashboardPage.openInvestments();
         StockTradingPage stocks = investmentsPage.openStockTradingPage();
         WatchListPage watchListPage = stocks.openWatchListPage();
-        watchListPage.verifyStocksAddedToWatchList("ABBEYDS");
-        watchListPage.goBackToWatchList();
-        AddToWatchListPage addToWatchListPage = watchListPage.addToWatchList();
-        addToWatchListPage.addStockToWatchlist("OANDO", "7.0");
+
+        if(watchListPage.verifyStocksAddedToWatchList("conoil")){
+            watchListPage.removeStockFromWatchList();
+            test.log(Status.PASS, "Stocks found in watchlist");
+        }else {
+            AddToWatchListPage addToWatchListPage = watchListPage.openAddToWatchListPage();
+            if(addToWatchListPage.addStockToWatchlist("conoil", "7.0")){
+                test.log(Status.PASS, "Stocks successfully added");
+            }
+        }
     }
 
+
+//**************************************FIXED DEPOSIT************************************
 
     @Test
     public void investFixedDeposit() throws IOException {
@@ -162,12 +186,13 @@ public class MainTestSuite extends BaseClass {
     public void WithdrawFromSavingsTest(){
         DashboardPage dashboardPage = LoginTest();
         SavingsPage savings = dashboardPage.swipeToOpenSavingsPage();
-//        FundsTransferPage fundsTransfer = savings.openTransferPage();
-//        pages.Savings.WithdrawFundPage withdrawFundPage = fundsTransfer.openWithdrawToBank();
-//        ConfirmTransactionPage confirm = withdrawFundPage.withdrawFundsToBank("1000.00");
-//        confirm.enterTransactionPin("123456");
-//        confirm.clickConfirmTransactionButton();
-//        test.log(Status.PASS, "Withdrawal Testcase Passed");
+        FundsTransferPage fundsTransfer = savings.openTransferPage();
+        pages.Savings.WithdrawFundPage withdrawFundPage = fundsTransfer.openWithdrawToBank();
+        ConfirmTransactionPage confirm = withdrawFundPage.withdrawFundsToBank("1000.00");
+        confirm.enterTransactionPin("123456");
+        confirm.clickConfirmTransactionButton();
+        confirm.processingWithdrawal();
+        test.log(Status.PASS, "Withdrawal Testcase Passed");
     }
 
 
@@ -191,7 +216,7 @@ public class MainTestSuite extends BaseClass {
     public void purchaseUtilities() throws InterruptedException {
         DashboardPage dashboardPage = LoginTest();
         BillsPaymentPage billsPaymentPage = dashboardPage.openBillsPaymentPage();
-        billsPaymentPage.purchaseElectricity("1000", "12001220");
+        billsPaymentPage.purchaseElectricity("1000", "12001220",staging);
     }
 
 
@@ -212,6 +237,8 @@ public class MainTestSuite extends BaseClass {
         var addPersonalAccount = bankAccounts.addPersonalAccount();
         addPersonalAccount.registerAccount("1505857304");
     }
+
+
 
 
 

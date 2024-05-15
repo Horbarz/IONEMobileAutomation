@@ -16,25 +16,39 @@ public class BillsPaymentPage {
     }
 
 
-    public void purchaseElectricity(String amount, String electricityNumber) throws InterruptedException {
+    public void purchaseElectricity(String amount, String electricityNumber, boolean staging) throws InterruptedException {
         Utils utils = new Utils(driver);
         Thread.sleep(10000);
-        driver.findElement(AppiumBy.accessibilityId("Select Category\n" +
-                "Select Category")).click();
 
-        driver.findElement(AppiumBy.accessibilityId("Utilities")).click();
-        Thread.sleep(5000);
-        driver.findElement(AppiumBy.accessibilityId("Select Biller\n" +
-                "Select Biller")).click();
-        driver.findElement(AppiumBy.accessibilityId("Eko Electricity Distribution Company Plc Prepaid")).click();
-        Thread.sleep(5000);
-        driver.findElement(AppiumBy.accessibilityId("Select biller item\n" +
-                "Select biller item")).click();
-        driver.findElement(AppiumBy.accessibilityId("Prepaid")).click();
-        WebElement amountText = driver.findElement(AppiumBy.xpath("//*[@text='0, Amount']"));
+        if(staging){
+            driver.findElement(AppiumBy.accessibilityId("Select Category\n" +
+                    "Select Category")).click();
+            driver.findElement(AppiumBy.accessibilityId("Utility Bills")).click();
+            Thread.sleep(5000);
+            driver.findElement(AppiumBy.accessibilityId("Select Biller\n" +
+                    "Select Biller")).click();
+            driver.findElement(AppiumBy.accessibilityId("Ikeja Prepaid")).click();
+            Thread.sleep(5000);
+            driver.findElement(AppiumBy.accessibilityId("Select biller item\n" +
+                    "Select biller item")).click();
+            driver.findElement(AppiumBy.accessibilityId("ERC")).click();
+        }else {
+            driver.findElement(AppiumBy.accessibilityId("Select Category\n" +
+                    "Select Category")).click();
+            driver.findElement(AppiumBy.accessibilityId("Utilities")).click();
+            Thread.sleep(5000);
+            driver.findElement(AppiumBy.accessibilityId("Select Biller\n" +
+                    "Select Biller")).click();
+            driver.findElement(AppiumBy.accessibilityId("Eko Electricity Distribution Company Plc Prepaid")).click();
+            Thread.sleep(5000);
+            driver.findElement(AppiumBy.accessibilityId("Select biller item\n" +
+                    "Select biller item")).click();
+            driver.findElement(AppiumBy.accessibilityId("Prepaid")).click();
+        }
+        WebElement amountText = driver.findElement(AppiumBy.xpath("//*[@text='0']"));
         amountText.click();
         amountText.sendKeys(amount);
-        WebElement customerIdField = driver.findElement(AppiumBy.xpath("//*[@index='7']"));
+        WebElement customerIdField = driver.findElement(AppiumBy.xpath("(//*[@class='android.widget.EditText'])[2]"));
         customerIdField.click();
         customerIdField.sendKeys(electricityNumber);
 

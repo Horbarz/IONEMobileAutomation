@@ -12,9 +12,13 @@ import java.time.Duration;
 public class AirtimePage {
     private AppiumDriver driver;
 
+    Utils utils;
+
     protected WebElement billerElement = null;
     public AirtimePage(AppiumDriver driver){
+
         this.driver = driver;
+        utils = new Utils(driver);
     }
 
     public void buyAirtime(String amount, String biller, String phoneNumber) throws InterruptedException {
@@ -42,9 +46,7 @@ public class AirtimePage {
             break;
         }
 
-
-
-        WebElement amountField = driver.findElement(AppiumBy.xpath("//*[@text='Amount']"));
+        WebElement amountField = driver.findElement(AppiumBy.xpath("(//*[@class='android.widget.EditText'])[1]"));
         amountField.click();
         amountField.sendKeys(amount);
 
@@ -57,7 +59,8 @@ public class AirtimePage {
 //        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 //        wait.until(ExpectedConditions.visibilityOf(error_text));
 
-        WebElement phoneNumberField = driver.findElement(AppiumBy.xpath("//*[@text='Phone Number']"));
+        WebElement phoneNumberField = driver.
+                findElement(AppiumBy.xpath("(//*[@class='android.widget.EditText'])[2]"));
         phoneNumberField.click();
         phoneNumberField.sendKeys(phoneNumber);
 
@@ -67,25 +70,27 @@ public class AirtimePage {
 
         driver.findElement(AppiumBy.accessibilityId("Pay ₦"+amount+".00")).click();
 
-        WebElement pinBox = driver.findElement(AppiumBy.xpath("//*[@text='|']"));
-        pinBox.click();
-        pinBox.sendKeys("1");
-        System.out.println(1);
-        Thread.sleep(2000);
-        utils.tapOnCoordinates(276,1078);
-        System.out.println(2);
-        Thread.sleep(2000);
-        utils.tapOnCoordinates(458,1078);
-        System.out.println(3);
-        Thread.sleep(2000);
-        utils.tapOnCoordinates(103,1202);
-        System.out.println(4);
-        Thread.sleep(2000);
-        utils.tapOnCoordinates(278,1193);
-        System.out.println(5);
-        Thread.sleep(2000);
-        utils.tapOnCoordinates(454,1198);
-        System.out.println(6);
-        Thread.sleep(10000);
+        utils.enterTransactionPin("123456");
+
+//        WebElement pinBox = driver.findElement(AppiumBy.xpath("//*[@text='|']"));
+//        pinBox.click();
+//        pinBox.sendKeys("1");
+//        System.out.println(1);
+//        Thread.sleep(2000);
+//        utils.tapOnCoordinates(276,1078);
+//        System.out.println(2);
+//        Thread.sleep(2000);
+//        utils.tapOnCoordinates(458,1078);
+//        System.out.println(3);
+//        Thread.sleep(2000);
+//        utils.tapOnCoordinates(103,1202);
+//        System.out.println(4);
+//        Thread.sleep(2000);
+//        utils.tapOnCoordinates(278,1193);
+//        System.out.println(5);
+//        Thread.sleep(2000);
+//        utils.tapOnCoordinates(454,1198);
+//        System.out.println(6);
+//        Thread.sleep(10000);
     }
 }

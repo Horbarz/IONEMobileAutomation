@@ -11,7 +11,7 @@ public class CreatePersonalAccount {
 
     private AppiumDriver driver;
 
-    private By AccountNumber = AppiumBy.xpath("//*[@text='Account Number']");
+    private By AccountNumber = AppiumBy.xpath("//*[@class='android.widget.EditText']");
 
     public CreatePersonalAccount(AppiumDriver driver){
         this.driver = driver;

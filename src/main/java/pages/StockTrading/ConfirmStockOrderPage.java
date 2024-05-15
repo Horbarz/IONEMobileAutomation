@@ -16,15 +16,33 @@ import java.util.Collections;
 public class ConfirmStockOrderPage {
 
     private AppiumDriver driver;
+    Utils utils;
 
     public ConfirmStockOrderPage(AppiumDriver driver){
+
         this.driver = driver;
+        utils = new Utils(driver);
     }
 
     public void enterTransactionPin(String pin){
-        WebElement transactionPin = driver.findElement(AppiumBy.xpath("//*[@class='android.view.View'][16]"));
-        Utils.tapOnElement(transactionPin);
+        driver.findElement(AppiumBy.accessibilityId("One-Touch"));
+        utils.containsText("Available Balance");
+        driver.findElement(AppiumBy.accessibilityId("Order Type"));
+        driver.findElement(AppiumBy.accessibilityId("CSCS Account"));
+        driver.findElement(AppiumBy.accessibilityId("Price per unit"));
+        driver.findElement(AppiumBy.accessibilityId("Estimated Amount"));
+        driver.findElement(AppiumBy.accessibilityId("Date Limit"));
+        driver.findElement(AppiumBy.accessibilityId("Unit"));
+        driver.findElement(AppiumBy.accessibilityId("Enter Transaction Pin"));
 
+        try {
+            utils.enterTransactionPin(pin);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        driver.findElement(AppiumBy.accessibilityId("Order placed Successfully"));
+        utils.containsText("You have successfully placed an order");
     }
 
 

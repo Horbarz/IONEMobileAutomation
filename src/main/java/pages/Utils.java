@@ -127,10 +127,10 @@ public class Utils {
         }
         if(element != null){
             size = element.getSize(); //get the dimensions
+            System.out.println(size); //print the size of the screen
         }else{
             size = driver.manage().window().getSize(); //get the dimensions
         }
-        //System.out.println(size); //print the size of the screen
         Point midPoint = new Point((int) (size.width * MID_RATIO), (int) (size.height * MID_RATIO)); // get the midpoint of the screen
         int bottom = midPoint.y + (int) (midPoint.y * scrollRatio); //get the bottom point cos it is the starting point scrolling up
         int top = midPoint.y - (int) (midPoint.y * scrollRatio);
@@ -144,7 +144,8 @@ public class Utils {
         } else if (dir == ScrollDirection.DOWN) {
             swipe(new Point(midPoint.x, bottom), new Point(midPoint.x, top), SCROLL_DUR);
         } else if (dir == ScrollDirection.LEFT) {
-            swipe(new Point(left, midPoint.y), new Point(right, midPoint.y), SCROLL_DUR);
+            swipe(new Point(678, 245), new Point(80, 245), SCROLL_DUR);
+            //swipe(new Point(left, midPoint.y), new Point(right, midPoint.y), SCROLL_DUR);
         } else {
             swipe(new Point(right, midPoint.y), new Point(left, midPoint.y), SCROLL_DUR);
         }
@@ -180,7 +181,7 @@ public class Utils {
         Sequence sequence = new Sequence(finger1, 1)
                 .addAction(finger1.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(),centerOfElement))
                 .addAction(finger1.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
-                .addAction(new Pause(finger1, Duration.ofMillis(200)))
+                .addAction(new Pause(finger1, Duration.ofMillis(500)))
                 .addAction(finger1.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
 
         driver.perform(Collections.singletonList(sequence));
@@ -205,27 +206,27 @@ public class Utils {
     public void enterTransactionPin(String pin) throws InterruptedException {
 
         tapOnCoordinates(96,922);
-        System.out.println(1);
+        System.out.println("Enter Pin");
         tapOnCoordinates(104,1075);
-        System.out.println(2);
+        System.out.println(1);
         tapOnCoordinates(64,1087);
         Thread.sleep(2000);
         tapOnCoordinates(245,1080);
-        System.out.println(3);
+        System.out.println(2);
         Thread.sleep(2000);
         tapOnCoordinates(458,1078);
-        System.out.println(4);
+        System.out.println(3);
         Thread.sleep(2000);
         tapOnCoordinates(103,1202);
-        System.out.println(5);
+        System.out.println(4);
         Thread.sleep(2000);
         tapOnCoordinates(278,1193);
-        System.out.println(6);
+        System.out.println(5);
         Thread.sleep(2000);
         tapOnCoordinates(454,1198);
-        System.out.println(7);
+        System.out.println(6);
         Thread.sleep(10000);
-        //driver.navigate().back();
+
     }
 
 }

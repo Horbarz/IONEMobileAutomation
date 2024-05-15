@@ -31,6 +31,7 @@ public class SeeTradesPage {
         }else {
             if(utils.verifyElementPresent(openStockOne)){
                 driver.findElement(openStockOne).click();
+                driver.navigate().back();
             }
         }
     }
@@ -43,6 +44,7 @@ public class SeeTradesPage {
         }else {
             if(utils.verifyElementPresent(openStockOne)){
                 driver.findElement(openStockOne).click();
+                driver.navigate().back();
             }
         }
     }
@@ -55,6 +57,7 @@ public class SeeTradesPage {
         }else {
             if(utils.verifyElementPresent(openStockOne)){
                 driver.findElement(openStockOne).click();
+                driver.navigate().back();
             }
         }
     }
@@ -67,6 +70,7 @@ public class SeeTradesPage {
         }else {
             if(utils.verifyElementPresent(openStockOne)){
                 driver.findElement(openStockOne).click();
+                driver.navigate().back();
             }
         }
     }

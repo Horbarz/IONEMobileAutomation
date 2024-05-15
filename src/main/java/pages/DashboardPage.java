@@ -19,9 +19,12 @@ public class DashboardPage {
 
     private AppiumDriver driver;
 
+    Utils utils;
+
     public DashboardPage(AppiumDriver driver){
 
         this.driver = driver;
+        utils = new Utils(driver);
     }
 
     public FixedIncomePage openFixedIncomePage(){
@@ -40,11 +43,12 @@ public class DashboardPage {
     }
 
     public SavingsPage openSavingsPage(){
-        driver.findElement(AppiumBy.accessibilityId("Savings Service Box\n" +
-                "Savings")).click();
+//        driver.findElement(AppiumBy.xpath("//*[@content-desc='Savings Service Box\n" +
+//                "Savings']")).click();
                 //driver.findElement(AppiumBy.accessibilityId("Savings")).click();
 //        driver.findElement(AppiumBy.xpath("//android.widget.ImageView[@content-desc=\"Savings Service Box\n" +
 //                "Savings\"]"));
+        driver.findElement(By.xpath("//*[contains(@content-desc,'Savings')]")).click();
         return new SavingsPage(driver);
     }
 
@@ -94,10 +98,11 @@ public class DashboardPage {
             throw new RuntimeException(e);
         }
         Utils utils = new Utils(driver);
-        WebElement horizontalScroll = driver.findElement(AppiumBy.xpath("//*[@class='android.widget.HorizontalScrollView']"));
-        utils.scroll(Utils.ScrollDirection.RIGHT,0.95, horizontalScroll);
-        utils.scroll(Utils.ScrollDirection.RIGHT,0.98, horizontalScroll);
-        utils.scroll(Utils.ScrollDirection.RIGHT,0.90, horizontalScroll);
+        WebElement horizontalScroll = driver.findElement(AppiumBy.accessibilityId("Portfolio Balance\n" +
+                "XXXXX.XX"));
+        utils.scroll(Utils.ScrollDirection.LEFT,0.5, horizontalScroll);
+        utils.scroll(Utils.ScrollDirection.LEFT,0.5, horizontalScroll);
+        utils.scroll(Utils.ScrollDirection.LEFT,0.5, horizontalScroll);
         driver.findElement(AppiumBy.xpath("//android.widget.ImageView[@content-desc=\"Savings details\n" +
                 "Savings Balance\n" +
                 "XXXXX.XX\"]/android.view.View")).click();

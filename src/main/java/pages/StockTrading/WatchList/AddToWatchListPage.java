@@ -23,8 +23,8 @@ public class AddToWatchListPage {
     private By alertPriceInput = By.xpath("//*[@index='5']");
 
     private By stockSearch = By.xpath("//*[@class='android.widget.EditText']");
-    private WebElement addToWatchlistButton = driver.findElement(AppiumBy.accessibilityId("Add to Watchlist"));
-    private WebElement backToWatchlistButton = driver.findElement(AppiumBy.accessibilityId("Back to Watchlist"));
+//    private WebElement addToWatchlistButton = driver.findElement(AppiumBy.accessibilityId("Add to Watchlist"));
+//    private WebElement backToWatchlistButton = driver.findElement(AppiumBy.accessibilityId("Back to Watchlist"));
 
     Utils utils;
 
@@ -35,8 +35,8 @@ public class AddToWatchListPage {
     }
 
     public StockTradingPage AddTStockToWatchList(){
-        addToWatchlistButton.click();
-        backToWatchlistButton.click();
+//        addToWatchlistButton.click();
+//        backToWatchlistButton.click();
         return new StockTradingPage(driver);
     }
 
@@ -48,8 +48,9 @@ public class AddToWatchListPage {
         try {
             driver.findElement(AppiumBy.accessibilityId(nameOfStocks)).click();
         }catch(Exception e){
-            driver.findElement(stockSearch).sendKeys(nameOfStocks.toLowerCase());
-            driver.findElement(AppiumBy.accessibilityId(nameOfStocks)).click();
+            driver.findElement(stockSearch).click();
+            driver.findElement(stockSearch).sendKeys(nameOfStocks);
+            driver.findElement(AppiumBy.accessibilityId(nameOfStocks.toUpperCase())).click();
             e.toString();
         }
         if(alertPrice != null){
@@ -60,6 +61,7 @@ public class AddToWatchListPage {
         if(utils.isTextPresent("Stock Added to Watchlist Successfully")){
             return true;
         }
+
         return false;
     }
 }

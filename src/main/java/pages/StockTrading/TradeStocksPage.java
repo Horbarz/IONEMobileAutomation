@@ -19,9 +19,7 @@ public class TradeStocksPage {
 
     public Utils utils;
 
-    private By searchStockField = By.xpath("//*[@index='2']");
-
-    private By searchResult = By.xpath("//*[@index='0']");
+    private By searchStockField = By.xpath("//*[@class='android.widget.EditText']");
 
     public TradeStocksPage(AppiumDriver driver){
         this.driver = driver;
@@ -30,15 +28,16 @@ public class TradeStocksPage {
 
 
     public StockResultPage searchStock(String stock){
-        try {
-            Thread.sleep(12000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(25));
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//*[contains(@content-desc, '7UP')]"))));
+//        WebElement searchField = driver.findElement(searchStockField);
+//        searchField.click();
+//        searchField.sendKeys(stock);
+        try{
+            utils.containsText(stock.toUpperCase()).click();
+        }catch(Exception e){
+            utils.containsText("7UP").click();
         }
-        WebElement searchField = driver.findElement(searchStockField);
-        searchField.click();
-        searchField.sendKeys(stock);
-        driver.findElement(searchResult).click();
         return new StockResultPage(driver);
     }
 

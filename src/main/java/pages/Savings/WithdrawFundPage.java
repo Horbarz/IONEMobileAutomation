@@ -33,10 +33,11 @@ public class WithdrawFundPage {
         amount.sendKeys("10.00");
         driver.findElement(selectWithdrawalAccount).click();
         driver.findElement(AppiumBy.accessibilityId("Bank Account")).click();
-        driver.findElement(selectBankAccount).click();
+        utils.containsText("Zenith Bank").click();
         driver.findElement(AppiumBy.accessibilityId("Proceed")).click();
         utils.isTextPresent("Please supply a valid amount");
         amount.click();
+        amount.clear();
         amount.sendKeys(amountToWithdraw);
         utils.goBack();
         driver.findElement(AppiumBy.accessibilityId("Proceed")).click();

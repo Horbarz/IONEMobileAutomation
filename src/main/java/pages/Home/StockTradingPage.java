@@ -59,6 +59,9 @@ public class StockTradingPage {
     }
 
     public WatchListPage openWatchListPage(){
+        WebElement watchlist_header = driver.findElement(AppiumBy.accessibilityId("Watchlist"));
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOf(watchlist_header));
         driver.findElement(viewAllWatchlist).click();
         return new WatchListPage(driver);
     }
