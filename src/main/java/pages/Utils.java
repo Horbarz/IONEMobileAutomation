@@ -127,10 +127,10 @@ public class Utils {
         }
         if(element != null){
             size = element.getSize(); //get the dimensions
-            System.out.println(size); //print the size of the screen
         }else{
             size = driver.manage().window().getSize(); //get the dimensions
         }
+        System.out.println(size); //print the size of the screen
         Point midPoint = new Point((int) (size.width * MID_RATIO), (int) (size.height * MID_RATIO)); // get the midpoint of the screen
         int bottom = midPoint.y + (int) (midPoint.y * scrollRatio); //get the bottom point cos it is the starting point scrolling up
         int top = midPoint.y - (int) (midPoint.y * scrollRatio);
@@ -140,7 +140,8 @@ public class Utils {
         int right = midPoint.x + (int) (midPoint.x * scrollRatio);
 
         if (dir == ScrollDirection.UP) {
-            swipe(new Point(midPoint.x, top), new Point(midPoint.x, bottom), SCROLL_DUR);
+            //swipe(new Point(midPoint.x, top), new Point(midPoint.x, bottom), SCROLL_DUR);
+            swipe(new Point(362, 711), new Point(362, 1000), SCROLL_DUR);
         } else if (dir == ScrollDirection.DOWN) {
             swipe(new Point(midPoint.x, bottom), new Point(midPoint.x, top), SCROLL_DUR);
         } else if (dir == ScrollDirection.LEFT) {
@@ -227,6 +228,23 @@ public class Utils {
         System.out.println(6);
         Thread.sleep(10000);
 
+    }
+
+    public void selectCalendarDate(String year,String day,boolean scroll){
+        driver.findElement(AppiumBy.accessibilityId("Select year")).click();
+        WebElement calendar = driver.findElement(By.xpath("(//*[@class='android.view.View'])[6]"));
+        if(scroll){
+            Utils.scroll(ScrollDirection.UP,0.7,null);
+            Utils.scroll(ScrollDirection.UP,0.7,null);
+        }
+        try{
+            driver.findElement(AppiumBy.accessibilityId(year)).click();
+        }catch (Exception e){
+            Utils.scroll(ScrollDirection.UP,0.7,null);
+            driver.findElement(AppiumBy.accessibilityId(year)).click();
+        }
+        containsText(day).click();
+        driver.findElement(AppiumBy.accessibilityId("OK")).click();
     }
 
 }

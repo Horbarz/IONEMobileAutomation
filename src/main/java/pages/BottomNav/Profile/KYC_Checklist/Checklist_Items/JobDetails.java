@@ -4,10 +4,13 @@ import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import pages.Utils;
 
 public class JobDetails {
 
     private AppiumDriver driver;
+
+    Utils utils;
 
     private By nationalityIndex = AppiumBy.xpath("//*[@index='3']");
 
@@ -30,7 +33,9 @@ public class JobDetails {
 
 
     public JobDetails(AppiumDriver driver){
+
         this.driver = driver;
+        utils = new Utils(driver);
     }
 
     public void UpdateJobDetails(String nameOfEmployer,
@@ -40,8 +45,7 @@ public class JobDetails {
 
         WebElement nationalityElement = driver.findElement(nationalityIndex);
         nationalityElement.click();
-        WebElement selectCountry = driver.findElement(countryIndex);
-        selectCountry.click();
+        utils.containsText("Nigeria").click();
 
         WebElement nameOfEmployerElement = driver.findElement(nameOfEmployerIndex);
         nameOfEmployerElement.click();
@@ -53,7 +57,7 @@ public class JobDetails {
 
         WebElement stateElement = driver.findElement(stateIndex);
         stateElement.click();
-        driver.findElement(selectState).click();
+        utils.containsText("Abia").click();
 
         WebElement cityElement = driver.findElement(cityIndex);
         cityElement.click();
@@ -63,7 +67,23 @@ public class JobDetails {
         zipcodeElement.click();
         zipcodeElement.sendKeys(zipCode);
 
+        driver.navigate().back();
         driver.findElement(proceedBtn).click();
+
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        try{
+            utils.isTextPresent("KYC Checklist");
+            utils.isTextPresent("Kindly complete pending items on the list");
+        }catch (Exception e){
+            driver.navigate().back();
+            utils.isTextPresent("KYC Checklist");
+            utils.isTextPresent("Kindly complete pending items on the list");
+        }
     }
 
 

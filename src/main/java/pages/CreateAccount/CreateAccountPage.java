@@ -59,11 +59,11 @@ public class CreateAccountPage {
         phoneDriver.sendKeys(phoneNumber);
 
         driver.navigate().back();
-        driver.findElement(AppiumBy.xpath("(//android.view.View[@content-desc=\"Create Account\"])[2]")).click();
+        driver.findElement(AppiumBy.xpath("(//*[contains(@content-desc,'Create Account')])[2]")).click();
 
         //Send verification code
         try {
-            Thread.sleep(10000);
+            Thread.sleep(30000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

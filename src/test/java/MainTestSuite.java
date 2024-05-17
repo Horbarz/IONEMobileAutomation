@@ -12,31 +12,108 @@ import pages.StockTrading.WatchList.AddToWatchListPage;
 import pages.StockTrading.WatchList.WatchListPage;
 import setup.BaseClass;
 
+import pages.TestData;
+
 import java.io.IOException;
 
 import static org.testng.Assert.*;
 
 public class MainTestSuite extends BaseClass {
 
-    boolean staging = true;
-//****************************************Account Creation*************************************
+    TestData data = new TestData();
+
+
+    //****************************************Account Creation*************************************
     @Test
     public void CreateNewAccountTest(){
         homePage.skipSplashPage();
         CreateAccountPage createAccountPage = homePage.clickCreateAccountBtn();
         var verifyEmail = createAccountPage.enterNewUserInfo(
-                "Jacob",
-                "Great",
-                "Paul", "jacobpaul@yopmail.com");
+                data.firstName,
+                data.middleName,
+                data.lastName,
+                data.email);
 
-        verifyEmail.enterOTP("12019");
+        var createPassword = verifyEmail.enterOTP("12019");
+        createPassword.enterPassword(data.password);
     }
+
+    public DashboardPage loginNewAccount(){
+        homePage.skipSplashPage();
+        LoginPage loginPage = homePage.clickLoginBtn();
+        loginPage.allowNotifications();
+        DashboardPage dashboardPage = loginPage.loginToDashboard(data.email, data.password);
+        return dashboardPage;
+    }
+
+    @Test
+    public void UpdateBVN(){
+        var dashboardPage =  loginNewAccount();
+        var profilePage = dashboardPage.openProfilePage();
+        var kycChecklistPage = profilePage.kycPage();
+        kycChecklistPage.verifyListPending();
+        var bvnPage = kycChecklistPage.openBVNPage();
+        bvnPage.enterBVNDetails(data.bvn,"1998","20");
+    }
+
+    @Test
+    public void updateNIN(){
+        var dashboardPage =  loginNewAccount();
+        var profilePage = dashboardPage.openProfilePage();
+        var kycChecklistPage = profilePage.kycPage();
+        kycChecklistPage.verifyListPending();
+        var ninPage = kycChecklistPage.openNinPage();
+        ninPage.enterNinDetails(data.nin);
+    }
+
+    @Test
+    public void UpdateKYCItems(){
+        var dashboardPage =  loginNewAccount();
+        var profilePage = dashboardPage.openProfilePage();
+        profilePage.verifyUserInfo(data.email,data.firstName,data.middleName,data.lastName);
+        var kycChecklistPage = profilePage.kycPage();
+        kycChecklistPage.verifyListPending();
+
+        var jobDetailsPage = kycChecklistPage.openJobDetailsPage();
+        jobDetailsPage.UpdateJobDetails(
+            data.nameOfEmployer, data.addressEmployer, data.city,data.zipCode
+        );
+
+        var nextOfKinPage = kycChecklistPage.openNokPage();
+        nextOfKinPage.UpdateNOKDetails(
+                data.fullName,data.relationship,data.nokAddress,data.nokCity,data.zip
+        );
+
+        var porPage = kycChecklistPage.openPORPage();
+        porPage.uploadPORDocument();
+
+        var passportPage = kycChecklistPage.openPassportPage();
+        passportPage.uploadPassportDocument();
+
+        var signaturePage = kycChecklistPage.openSignature();
+        signaturePage.uploadSignature();
+
+        var meansOfIdPage = kycChecklistPage.openMeansOfID();
+        meansOfIdPage.uploadMeansOfId(data.docId,data.meansOfIdType);
+    }
+
+    @Test
+    public void updateUserProfile(){
+        var dashboardPage =  loginNewAccount();
+        var profilePage = dashboardPage.openProfilePage();
+        var editProfilePage = profilePage.openEditProfilePage();
+        editProfilePage.enterProfileInfo(data.newMiddleName);
+    }
+
+
+
+
     @Test
     public DashboardPage LoginTest(){
         homePage.skipSplashPage();
         LoginPage loginPage = homePage.clickLoginBtn();
         loginPage.allowNotifications();
-        DashboardPage dashboardPage = loginPage.loginToDashboard("12487", "P@ssword105");
+        DashboardPage dashboardPage = loginPage.loginToDashboard(data.productionUserId, data.productionPassword);
         test.log(Status.PASS,"Login Test case passed");
         return dashboardPage;
     }
@@ -216,7 +293,7 @@ public class MainTestSuite extends BaseClass {
     public void purchaseUtilities() throws InterruptedException {
         DashboardPage dashboardPage = LoginTest();
         BillsPaymentPage billsPaymentPage = dashboardPage.openBillsPaymentPage();
-        billsPaymentPage.purchaseElectricity("1000", "12001220",staging);
+        billsPaymentPage.purchaseElectricity("1000", "12001220",data.staging);
     }
 
 

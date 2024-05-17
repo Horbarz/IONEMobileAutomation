@@ -7,12 +7,26 @@ import org.openqa.selenium.WebElement;
 import pages.BottomNav.Profile.KYC_Checklist.KycPage;
 import pages.BottomNav.Profile.PersonalAccount.PersonalAccountPage;
 import pages.LoginPage;
+import pages.Utils;
 
 public class ProfilePage {
     private AppiumDriver driver;
 
+    Utils utils;
+
     public ProfilePage(AppiumDriver driver){
         this.driver = driver;
+        utils = new Utils(driver);
+    }
+
+    public void verifyUserInfo(String email, String firstname, String middleName, String lastName){
+        utils.isTextPresent("User ID: "+email);
+        utils.isTextPresent(email);
+        utils.isTextPresent("Email:");
+        utils.isTextPresent("Phone Number:");
+        utils.isTextPresent("Account Officer:");
+        utils.isTextPresent("Account Officer Email:");
+        utils.isTextPresent(firstname+" "+middleName+" "+lastName);
     }
 
     public LoginPage logout(){
@@ -64,9 +78,15 @@ public class ProfilePage {
     }
 
     public PrivacyPolicyPage privacyPolicyPage(){
-        WebElement privacypolicyBtn = driver.findElement(MobileBy.AccessibilityId("Privacy Policy"));
+        WebElement privacypolicyBtn = driver.findElement(AppiumBy.accessibilityId("Privacy Policy"));
         privacypolicyBtn.click();
         return new PrivacyPolicyPage(driver);
+    }
+
+    public EditProfilePage openEditProfilePage(){
+        WebElement editProfileBtn = driver.findElement(AppiumBy.accessibilityId("Edit Profile"));
+        editProfileBtn.click();
+        return new EditProfilePage(driver);
     }
 
 
