@@ -60,24 +60,28 @@ public class ProfilePage {
     }
 
     public LinkSwitchAccountPage linkSwitchAccountPage(){
+        Utils.scroll(Utils.ScrollDirection.DOWN,0.7,null);
         WebElement linkSwitchBtn = driver.findElement(AppiumBy.accessibilityId("Link / Switch Account"));
         linkSwitchBtn.click();
         return new LinkSwitchAccountPage(driver);
     }
 
     public HelpCenterPage helpCenterPage(){
+        Utils.scroll(Utils.ScrollDirection.DOWN,0.7,null);
         WebElement helpCenterBtn = driver.findElement(AppiumBy.accessibilityId("Help Center"));
         helpCenterBtn.click();
         return new HelpCenterPage(driver);
     }
 
     public TermsConditionsPage termsConditionsPage(){
+        Utils.scroll(Utils.ScrollDirection.DOWN,0.7,null);
         WebElement tandcBtn = driver.findElement(AppiumBy.accessibilityId("Terms & Condition"));
         tandcBtn.click();
         return new TermsConditionsPage(driver);
     }
 
     public PrivacyPolicyPage privacyPolicyPage(){
+        Utils.scroll(Utils.ScrollDirection.DOWN,0.7,null);
         WebElement privacypolicyBtn = driver.findElement(AppiumBy.accessibilityId("Privacy Policy"));
         privacypolicyBtn.click();
         return new PrivacyPolicyPage(driver);
@@ -87,6 +91,13 @@ public class ProfilePage {
         WebElement editProfileBtn = driver.findElement(AppiumBy.accessibilityId("Edit Profile"));
         editProfileBtn.click();
         return new EditProfilePage(driver);
+    }
+
+    public AppAppearance openAppAppearancePage(){
+        Utils.scroll(Utils.ScrollDirection.DOWN,0.7,null);
+        WebElement appAppearBtn = driver.findElement(AppiumBy.accessibilityId("App Appearance"));
+        appAppearBtn.click();
+        return new AppAppearance(driver);
     }
 
 

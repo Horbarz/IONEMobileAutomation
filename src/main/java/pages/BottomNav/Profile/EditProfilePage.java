@@ -29,6 +29,7 @@ public class EditProfilePage {
         utils.isTextPresent("Email Address");
         utils.isTextPresent("Phone Number");
 
+
         WebElement middleNameEle = driver.findElement(middleNameInput);
         middleNameEle.clear();
         middleNameEle.sendKeys(middleName);
@@ -36,11 +37,9 @@ public class EditProfilePage {
         driver.findElement(AppiumBy.accessibilityId("Update")).click();
         utils.isTextPresent("Please wait ...");
 
+        utils.delay(15);
         System.out.println(middleNameEle.getText());
 
-        if(middleName.equals(middleNameEle.getText())){
-            System.out.println("Success");
-        }
 
     }
 }

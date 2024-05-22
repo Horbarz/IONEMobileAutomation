@@ -8,6 +8,8 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Pause;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -23,6 +25,20 @@ public class Utils {
 
     public Utils(AppiumDriver driver){
         this.driver = driver;
+    }
+
+
+    public void waitForElement(WebElement element, long time){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(time));
+        wait.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    public void delay(long time){
+        try {
+            Thread.sleep(time*1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public WebElement containsText(String elementText){
@@ -130,7 +146,7 @@ public class Utils {
         }else{
             size = driver.manage().window().getSize(); //get the dimensions
         }
-        System.out.println(size); //print the size of the screen
+        System.out.println("Screen Size: "+size); //print the size of the screen
         Point midPoint = new Point((int) (size.width * MID_RATIO), (int) (size.height * MID_RATIO)); // get the midpoint of the screen
         int bottom = midPoint.y + (int) (midPoint.y * scrollRatio); //get the bottom point cos it is the starting point scrolling up
         int top = midPoint.y - (int) (midPoint.y * scrollRatio);

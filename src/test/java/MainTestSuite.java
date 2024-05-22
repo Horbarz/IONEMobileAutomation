@@ -6,6 +6,7 @@ import pages.CreateAccount.CreateAccountPage;
 import pages.DashboardPage;
 import pages.Home.*;
 import pages.LoginPage;
+import pages.Savings.FundZsaveAccountPage;
 import pages.Savings.FundsTransferPage;
 import pages.StockTrading.*;
 import pages.StockTrading.WatchList.AddToWatchListPage;
@@ -104,6 +105,61 @@ public class MainTestSuite extends BaseClass {
         var editProfilePage = profilePage.openEditProfilePage();
         editProfilePage.enterProfileInfo(data.newMiddleName);
     }
+
+    @Test
+    public void updateAccountSettingsInfo(){
+        var dashboardPage =  loginNewAccount();
+        var profilePage = dashboardPage.openProfilePage();
+        var accountSettingsPage = profilePage.accountSettingsPage();
+        accountSettingsPage.updatePersonalData(data.gender,data.maritalStatus,data.motherMaiden);
+        accountSettingsPage.updateAddressInformation(data.lga,
+                data.homeAddress,data.stateOfResidence,
+                data.cityofResidence,data.residentZipCode);
+    }
+
+    @Test
+    public void switchAccount(){
+        var dashboardPage =  loginNewAccount();
+        var profilePage = dashboardPage.openProfilePage();
+        var switchAccountPage = profilePage.linkSwitchAccountPage();
+        switchAccountPage.linkAccount(data.productionUserId, data.productionPassword);
+        switchAccountPage.switchAccount(data.productionUserId, data.productionPassword);
+    }
+
+    @Test
+    public void darkMode(){
+        var dashboardPage =  loginNewAccount();
+        var profilePage = dashboardPage.openProfilePage();
+        var darkModePage = profilePage.openAppAppearancePage();
+        darkModePage.toggleDarkMode(true);
+    }
+
+    @Test
+    public void helpCenter(){
+        var dashboardPage =  loginNewAccount();
+        var profilePage = dashboardPage.openProfilePage();
+        var helpcenterPage = profilePage.helpCenterPage();
+       // helpcenterPage.viewFAQs();
+        helpcenterPage.contactUs(data.contactUsMessage);
+    }
+
+    @Test
+    public void termsAndConditionsPage(){
+        var dashboardPage =  loginNewAccount();
+        var profilePage = dashboardPage.openProfilePage();
+        var tandcPage = profilePage.termsConditionsPage();
+        tandcPage.navigateTandCPage();
+
+    }
+
+    @Test
+    public void privacyPage(){
+        var dashboardPage =  loginNewAccount();
+        var profilePage = dashboardPage.openProfilePage();
+        var privacyPage = profilePage.privacyPolicyPage();
+        privacyPage.navigatePrivacyPage();
+    }
+
 
 
 
@@ -259,6 +315,15 @@ public class MainTestSuite extends BaseClass {
     }
 
 
+//    **************************************Savings************************************
+    @Test
+    public void fundSavingsAccountTest(){
+        DashboardPage dashboardPage = LoginTest();
+        SavingsPage savings = dashboardPage.swipeToOpenSavingsPage();
+        var accountBal = savings.returnBalance();
+        FundZsaveAccountPage fundSavingsPage = savings.openFundAccountPage();
+        fundSavingsPage.fundAccount(data.amountToFund,accountBal);
+    }
     @Test
     public void WithdrawFromSavingsTest(){
         DashboardPage dashboardPage = LoginTest();
