@@ -14,37 +14,52 @@ public class FixedIncomePage {
 
     private AppiumDriver driver;
 
-    private By amountField = AppiumBy.xpath("//*[@text='0.00, Amount']");
+    Utils utils;
+
+    private By amountField = AppiumBy.xpath("//*[@text='0.00']");
 
 
 
     public FixedIncomePage(AppiumDriver driver){
+
         this.driver = driver;
+        utils = new Utils(driver);
     }
 
-    public FundingMethod selectInvestmentPlan() throws IOException {
+    public FundingMethod selectInvestmentPlan(String investmentPlan, String amount){
 
-        Utils utils = new Utils(driver);
         driver.findElement(AppiumBy.accessibilityId("Add New Investment")).click();
-        utils.tapOnCoordinates(275,1075);
-        WebElement amountEle = driver.findElement(amountField);
-        utils.tapOnCoordinates(275,1075);
-//        while(!(utils.verifyElementPresent(amountField))){
-//            utils.tapOnCoordinates(275,1075);
-//        }
-        try{
-            amountEle.click();
-        }catch(org.openqa.selenium.NoSuchElementException e){
-            utils.tapOnCoordinates(134,1092);
-            amountEle.click();
+        utils.delay(20);
+
+        switch (investmentPlan){
+            case "Fixed Deposit Investment":
+                utils.containsText("Fixed Deposit Investment").click();
+                break;
+            case "High Yield Note":
+                utils.containsText("High Yield Note").click();
+                break;
+            case "IJARA":
+                utils.containsText("IJARA").click();
+                break;
+            case "Medium Term Note":
+                utils.containsText("Medium Term Note").click();
+                break;
+            case "Real Estate Note":
+                utils.containsText("Real Estate Note").click();
+                break;
         }
+
+        WebElement amountEle = driver.findElement(amountField);
+
         amountEle.click();
-        amountEle.sendKeys("50000000");
-        driver.navigate().back();
-        driver.findElement(AppiumBy.accessibilityId("Min Amount"));
-        driver.findElement(AppiumBy.accessibilityId("Max Amount"));
-        driver.findElement(AppiumBy.accessibilityId("Tenure"));
-        driver.findElement(AppiumBy.accessibilityId("Rate per annum"));
+        amountEle.sendKeys(amount);
+        utils.delay(3);
+        utils.goBack();
+        utils.isTextPresent("Min Amount");
+        utils.isTextPresent("Max Amount");
+        utils.isTextPresent("Tenure");
+        utils.isTextPresent("Rate per annum");
+        utils.goBack();
         driver.findElement(AppiumBy.accessibilityId("Select")).click();
         driver.findElement(AppiumBy.accessibilityId("30")).click();
         Utils.scroll(Utils.ScrollDirection.DOWN, 0.75, null);
@@ -52,15 +67,24 @@ public class FixedIncomePage {
         return new FundingMethod(driver);
     }
 
-    public void viewAllFunding(){
+    public void viewAllInvestments(){
         driver.findElement(AppiumBy.accessibilityId("View All")).click();
     }
 
     public void terminateInvestment(){
         driver.navigate().back();
-        viewAllFunding();
+        viewAllInvestments();
         driver.findElement(By.xpath("//*[@index='1']")).click();
         driver.findElement(AppiumBy.accessibilityId("Terminate")).click();
+    }
+
+    public void verifyFixedIncomePage(){
+        utils.delay(5);
+        utils.containsText("Total Investment Amount");
+        utils.containsText("Total Cash Amount");
+        utils.containsText("My Investments");
+        utils.isTextPresent("Fixed Income");
+
     }
 
 

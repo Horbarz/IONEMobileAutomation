@@ -11,9 +11,9 @@ public class SeeTradesPage {
 
     AppiumDriver driver;
 
-    private By openStockOne = By.xpath("//*[@index='0']");
+    private By openStockOne = By.xpath("(//*[@class='android.widget.ImageView'])[2]");
 
-    private By filteringOptions = By.xpath("//*[@index='2']");
+    private By filteringOptions = By.xpath("(//*[@class='android.widget.ImageView'])[1]");
 
     private By filteringOptionsOnOpenPage = By.xpath("//*[@elementId='00000000-0000-0298-0000-025d00000004']");
 
@@ -29,10 +29,12 @@ public class SeeTradesPage {
         if(utils.isTextPresent("No traded order yet")){
            System.out.println("No orders");
         }else {
-            if(utils.verifyElementPresent(openStockOne)){
                 driver.findElement(openStockOne).click();
+                utils.containsText("Order Type");
+                utils.containsText("Unit");
+                utils.containsText("Price per unit");
                 driver.navigate().back();
-            }
+
         }
     }
 
@@ -42,36 +44,40 @@ public class SeeTradesPage {
         if(utils.isTextPresent("No open order yet")){
             System.out.println("No orders");
         }else {
-            if(utils.verifyElementPresent(openStockOne)){
                 driver.findElement(openStockOne).click();
+                utils.containsText("Order Type");
+                utils.containsText("Unit");
+                utils.containsText("Price per unit");
                 driver.navigate().back();
-            }
         }
     }
 
     public void verifyCancelledOrders() throws IOException {
-        driver.findElement(filteringOptionsOnOpenPage).click();
+        driver.findElement(filteringOptions).click();
         driver.findElement(AppiumBy.accessibilityId("Cancelled Orders")).click();
         if(utils.isTextPresent("No cancelled order yet")){
             System.out.println("No orders");
         }else {
-            if(utils.verifyElementPresent(openStockOne)){
                 driver.findElement(openStockOne).click();
+                utils.containsText("Order Type");
+                utils.containsText("Unit");
+                utils.containsText("Price per unit");
                 driver.navigate().back();
-            }
+
         }
     }
 
     public void verifyRejectedOrders() throws IOException {
-        driver.findElement(filteringOptionsOnOpenPage).click();
+        driver.findElement(filteringOptions).click();
         driver.findElement(AppiumBy.accessibilityId("Rejected Orders")).click();
         if(utils.isTextPresent("No rejected order yet")){
             System.out.println("No orders");
         }else {
-            if(utils.verifyElementPresent(openStockOne)){
                 driver.findElement(openStockOne).click();
+                utils.containsText("Order Type");
+                utils.containsText("Buy Unit");
+                utils.containsText("Price per unit");
                 driver.navigate().back();
-            }
         }
     }
 }

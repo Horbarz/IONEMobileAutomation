@@ -3,27 +3,43 @@ package pages.FixedIncome;
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
 import pages.Home.FixedIncomePage;
+import pages.Utils;
 
 public class FundingMethod {
 
     private AppiumDriver driver;
 
+    Utils utils;
+
     public FundingMethod(AppiumDriver driver){
+
         this.driver = driver;
+        utils = new Utils(driver);
     }
 
-    public void CardFunding() throws InterruptedException {
+    public FixedIncomePage CardFunding(){
         driver.findElement(AppiumBy.accessibilityId("Card Funding\n" +
                 "Fund with your card")).click();
+        utils.delay(2);
         driver.findElement(AppiumBy.accessibilityId("***")).click();
-        Thread.sleep(5000);
-        driver.navigate().back();
+        utils.isTextPresent("Processing ...");
+        utils.delay(2);
+        utils.isTextPresent("Booking investment...");
+        utils.delay(5);
+        return new FixedIncomePage(driver);
     }
 
     public FixedIncomePage WalletFunding(){
         driver.findElement(AppiumBy.accessibilityId("My Wallet\n" +
                 "Fund from your wallet")).click();
+        utils.isTextPresent("Wallet Funding");
+        utils.isTextPresent("Transaction Type");
+        utils.isTextPresent("Amount to fund");
         driver.findElement(AppiumBy.accessibilityId("Confirm")).click();
+        utils.isTextPresent("Please wait...");
+        utils.delay(2);
+        utils.isTextPresent("Booking investment...");
+        utils.delay(5);
         return new FixedIncomePage(driver);
     }
 

@@ -21,9 +21,9 @@ public class StockPurchasePage {
         utils = new Utils(driver);
     }
 
-    public ConfirmStockOrderPage BuyStock(String quantity){
+    public ConfirmStockOrderPage BuyStock(String quantity, String cscsNumber){
         driver.findElement(AppiumBy.accessibilityId("Select")).click();
-        driver.findElement(AppiumBy.accessibilityId("0012345670")).click();
+        driver.findElement(AppiumBy.accessibilityId(cscsNumber)).click();
         //WebElement quant = driver.findElement(By.xpath("//*[@index='5']"));
         WebElement quant = driver.findElement(AppiumBy.xpath("//*[@class='android.widget.EditText'][1]"));
         quant.click();
@@ -36,9 +36,9 @@ public class StockPurchasePage {
         return new ConfirmStockOrderPage(driver);
     }
 
-    public ConfirmStockOrderPage SellStock(String quantity){
+    public ConfirmStockOrderPage SellStock(String quantity, String cscsNumber){
         driver.findElement(AppiumBy.accessibilityId("Select")).click();
-        driver.findElement(AppiumBy.accessibilityId("0012345670")).click();
+        driver.findElement(AppiumBy.accessibilityId(cscsNumber)).click();
         //WebElement quant = driver.findElement(By.xpath("//*[@index='5']"));
         WebElement quant = driver.findElement(AppiumBy.xpath("//*[@class='android.widget.EditText'][1]"));
         quant.click();

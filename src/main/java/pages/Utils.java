@@ -12,8 +12,11 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Collections;
+import java.util.Date;
+import java.util.Random;
 
 public class Utils {
     static double SCROLL_RATIO = 0.5;
@@ -31,6 +34,12 @@ public class Utils {
     public void waitForElement(WebElement element, long time){
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(time));
         wait.until(ExpectedConditions.visibilityOf(element));
+    }
+
+    public static String generateRandomNumber(int range){
+        Random random = new Random();
+        int num = random.nextInt(range);
+        return Integer.toString(num);
     }
 
     public void delay(long time){
@@ -79,6 +88,15 @@ public class Utils {
 
     public void goBack(){
         driver.navigate().back();
+    }
+
+    public String getTodaysDate(){
+        String day = new SimpleDateFormat("dd").format(new Date());
+        String year = new SimpleDateFormat("yyyy").format(new Date());
+        String month = new SimpleDateFormat("MMMM").format(new Date());
+        String todaysDate = month+" "+day+", "+year;
+        return todaysDate;
+
     }
 
     public WebElement PageText(String text){
@@ -220,13 +238,58 @@ public class Utils {
                 location.getY()+size.getHeight()/2);
     }
 
-    public void enterTransactionPin(String pin) throws InterruptedException {
+    public void enterOTP(char otp){
+        switch (otp){
+            case '1':
+                tapOnCoordinates(49,1056);
+                break;
+            case '2':
+                tapOnCoordinates(120,1056);
+                break;
+            case '3':
+                tapOnCoordinates(188,1056);
+                break;
+            case '4':
+                tapOnCoordinates(260,1056);
+                break;
+            case '5':
+                tapOnCoordinates(325,1056);
+                break;
+            case '6':
+                tapOnCoordinates(395,1056);
+                break;
+            case '7':
+                tapOnCoordinates(465,1056);
+                break;
+            case '8':
+                tapOnCoordinates(535,1056);
+                break;
+            case '9':
+                tapOnCoordinates(605,1056);
+                break;
+            case '0':
+                tapOnCoordinates(675,1056);
+                break;
+        }
+    }
 
-        tapOnCoordinates(96,922);
-        System.out.println("Enter Pin");
+    public void enterTransactionPin(String pin, String module) throws InterruptedException {
+
+        if(module.equals("withdrawal")){
+            tapOnCoordinates(96,922);
+            System.out.println("Entering Pin for withdrawal...");
+        } else if (module.equals("stocks")) {
+            tapOnCoordinates(96,1120);
+            System.out.println("Entering Pin for stock purchase...");
+        } else if (module.equals("transfer")) {
+            tapOnCoordinates(96,880);
+            System.out.println("Entering Pin for transfer...");
+        }
+
+        Thread.sleep(2000);
         tapOnCoordinates(104,1075);
         System.out.println(1);
-        tapOnCoordinates(64,1087);
+//        tapOnCoordinates(64,1087);
         Thread.sleep(2000);
         tapOnCoordinates(245,1080);
         System.out.println(2);
@@ -243,6 +306,16 @@ public class Utils {
         tapOnCoordinates(454,1198);
         System.out.println(6);
         Thread.sleep(10000);
+
+//        System.out.println(7);
+//        tapOnCoordinates(104,1311);
+//        System.out.println(8);
+//        tapOnCoordinates(275,1311);
+//        System.out.println(9);
+//        tapOnCoordinates(452,1311);
+//        System.out.println(0);
+//        tapOnCoordinates(273,1428);
+
 
     }
 

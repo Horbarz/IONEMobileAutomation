@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import pages.Savings.FundZsaveAccountPage;
 import pages.Savings.FundsTransferPage;
+import pages.Savings.SavingsPlanPage;
 import pages.Utils;
 
 public class SavingsPage {
@@ -33,8 +34,7 @@ public class SavingsPage {
         return new FundZsaveAccountPage(driver);
     }
 
-
-    public long returnBalance(){
+    public void toggleBalance(){
         try{
             WebElement toggleBalEle = driver.findElement(By.xpath("//android.view.View[@content-desc=\"zSave Information\n" +
                     "Available Balance\n" +
@@ -44,12 +44,19 @@ public class SavingsPage {
             e.toString();
         }
 
-        String balance = utils.containsText("zSave Information Available").getText();
-        System.out.println(balance);
+    }
+    public long returnBalance(){
+        String balance = utils.containsText("zSave Information").getAttribute("content-desc");
+        System.out.println("This is the balance: "+balance);
 
         long finalBal = Long.parseLong(balance.replaceAll("[^0-9]",""));
 
         return finalBal;
+    }
+
+    public SavingsPlanPage savingsPlanPage(){
+        driver.findElement(AppiumBy.accessibilityId("Create New Plan")).click();
+        return new SavingsPlanPage(driver);
     }
 
 

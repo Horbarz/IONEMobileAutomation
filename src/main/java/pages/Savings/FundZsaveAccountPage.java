@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import pages.Home.SavingsPage;
 import pages.Utils;
 
+import java.math.BigDecimal;
+
 public class FundZsaveAccountPage {
 
     private AppiumDriver driver;
@@ -63,9 +65,41 @@ public class FundZsaveAccountPage {
 
         utils.containsText("Done").click();
 
-        long newBalance = savingsPage.returnBalance();
+        Utils.scroll(Utils.ScrollDirection.UP,0.9,null);
 
-        System.out.println("New Balance: "+newBalance);
+        utils.delay(10);
+
+        var actualBal = savingsPage.returnBalance();
+
+
+        utils.delay(2);
+
+        var amountInDouble = Double.valueOf(amount);
+        BigDecimal currentBalDec = BigDecimal.valueOf(currentAccountBal).movePointLeft(2);
+        var proposedBal = currentBalDec.doubleValue() + amountInDouble;
+
+        BigDecimal actualBalance = BigDecimal.valueOf(actualBal).movePointLeft(2);
+        var actualAccountBalance = actualBalance.doubleValue();
+
+        System.out.println("New Balance: "+actualAccountBalance);
+        System.out.println("Proposed Bal: "+proposedBal);
+
+        if(proposedBal==actualAccountBalance){
+            Utils.scroll(Utils.ScrollDirection.DOWN,0.9,null);
+            viewSavingsTransactions();
+        }
+    }
+
+    public void viewSavingsTransactions(){
+        utils.containsText("Funds Deposit").click();
+        utils.isTextPresent("TRANSACTION DETAILS");
+        utils.isTextPresent("SUCCESS");
+        utils.isTextPresent("Amount:");
+        utils.isTextPresent("Reference:");
+        utils.isTextPresent("Narration:");
+        utils.isTextPresent(utils.getTodaysDate());
+        utils.containsText("Done").click();
+        System.out.println("Transactions viewed");
     }
 
 

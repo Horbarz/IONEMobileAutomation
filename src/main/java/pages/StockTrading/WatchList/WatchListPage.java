@@ -39,10 +39,11 @@ public class WatchListPage {
     }
 
     public boolean verifyStocksAddedToWatchList(String stock){
+        utils.delay(5);
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(AppiumBy.accessibilityId("ABBEYBDS\n" +
-                "₦2.44\n" +
-                "43.53"))));
+//        wait.until(ExpectedConditions.visibilityOf(driver.findElement(AppiumBy.accessibilityId("ABBEYBDS\n" +
+//                "₦2.44\n" +
+//                "43.53"))));
         if(utils.isTextPresent("No stock found")){
             System.out.println("No stock found");
         }else {

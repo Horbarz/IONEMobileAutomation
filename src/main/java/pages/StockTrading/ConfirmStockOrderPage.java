@@ -24,7 +24,8 @@ public class ConfirmStockOrderPage {
         utils = new Utils(driver);
     }
 
-    public void enterTransactionPin(String pin){
+    public void enterTransactionPin(String pin, String stock){
+        utils.delay(20);
         driver.findElement(AppiumBy.accessibilityId("One-Touch"));
         utils.containsText("Available Balance");
         driver.findElement(AppiumBy.accessibilityId("Order Type"));
@@ -36,10 +37,12 @@ public class ConfirmStockOrderPage {
         driver.findElement(AppiumBy.accessibilityId("Enter Transaction Pin"));
 
         try {
-            utils.enterTransactionPin(pin);
+            utils.enterTransactionPin(pin,stock);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+        driver.findElement(AppiumBy.accessibilityId("Proceed")).click();
 
         driver.findElement(AppiumBy.accessibilityId("Order placed Successfully"));
         utils.containsText("You have successfully placed an order");

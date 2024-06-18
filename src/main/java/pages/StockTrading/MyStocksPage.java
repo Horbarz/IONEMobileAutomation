@@ -24,7 +24,8 @@ public class MyStocksPage {
     }
 
     public void viewMetrics(){
-        driver.findElement(AppiumBy.accessibilityId("View Metrics")).click();
+        driver.findElement(AppiumBy.xpath("View Metrics")).click();
+        //driver.findElement(AppiumBy.xpath());
 
 
     }

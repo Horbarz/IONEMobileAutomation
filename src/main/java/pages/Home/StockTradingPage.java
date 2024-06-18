@@ -17,6 +17,7 @@ import java.time.Duration;
 public class StockTradingPage {
     private AppiumDriver driver;
 
+    private By toggleButton = AppiumBy.xpath("//*[@class='android.widget.Button']");
     private By viewAllMyStocks = AppiumBy.xpath("(//android.view.View[@content-desc=\"See All\"])[1]");
 
     private By viewAllWatchlist = AppiumBy.xpath("(//android.view.View[@content-desc=\"See All\"])[2]");
@@ -73,5 +74,8 @@ public class StockTradingPage {
         return new DashboardPage(driver);
     }
 
+    public void toggleBalance(){
+        driver.findElement(toggleButton).click();
+    }
 
 }

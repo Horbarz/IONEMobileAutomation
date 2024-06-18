@@ -1,4 +1,5 @@
 import com.aventstack.extentreports.Status;
+import com.mailosaur.MailosaurException;
 import org.testng.annotations.Test;
 import pages.BottomNav.InvestmentsPage;
 import pages.BottomNav.Profile.ProfilePage;
@@ -8,6 +9,7 @@ import pages.Home.*;
 import pages.LoginPage;
 import pages.Savings.FundZsaveAccountPage;
 import pages.Savings.FundsTransferPage;
+import pages.Savings.SavingsPlanPage;
 import pages.StockTrading.*;
 import pages.StockTrading.WatchList.AddToWatchListPage;
 import pages.StockTrading.WatchList.WatchListPage;
@@ -33,9 +35,8 @@ public class MainTestSuite extends BaseClass {
                 data.firstName,
                 data.middleName,
                 data.lastName,
-                data.email);
-
-        var createPassword = verifyEmail.enterOTP("12019");
+                data.newEmail);
+        var createPassword = verifyEmail.enterOTP(data.newEmail);
         createPassword.enterPassword(data.password);
     }
 
@@ -139,7 +140,7 @@ public class MainTestSuite extends BaseClass {
         var dashboardPage =  loginNewAccount();
         var profilePage = dashboardPage.openProfilePage();
         var helpcenterPage = profilePage.helpCenterPage();
-       // helpcenterPage.viewFAQs();
+        helpcenterPage.viewFAQs();
         helpcenterPage.contactUs(data.contactUsMessage);
     }
 
@@ -149,7 +150,6 @@ public class MainTestSuite extends BaseClass {
         var profilePage = dashboardPage.openProfilePage();
         var tandcPage = profilePage.termsConditionsPage();
         tandcPage.navigateTandCPage();
-
     }
 
     @Test
@@ -159,8 +159,6 @@ public class MainTestSuite extends BaseClass {
         var privacyPage = profilePage.privacyPolicyPage();
         privacyPage.navigatePrivacyPage();
     }
-
-
 
 
 
@@ -192,6 +190,8 @@ public class MainTestSuite extends BaseClass {
         DepositMoneyPage deposit = stocks.openDepositMoneyPage();
         WalletFundingPage fundStocksWithWallet = deposit.fundStockByWallet("2000.00");
         fundStocksWithWallet.confirmPayment();
+        fundStocksWithWallet.displayNotificationMessage();
+
     }
 
     @Test
@@ -199,6 +199,7 @@ public class MainTestSuite extends BaseClass {
         DashboardPage dashboardPage = LoginTest();
         InvestmentsPage investmentsPage = dashboardPage.openInvestments();
         StockTradingPage stocks = investmentsPage.openStockTradingPage();
+        stocks.toggleBalance();
         DepositMoneyPage depositByCard = stocks.openDepositMoneyPage();
         CardFundingPage fundStockWithCard = depositByCard.fundStockByCard("1000.00");
         String textMessage = fundStockWithCard.completePayment();
@@ -218,10 +219,12 @@ public class MainTestSuite extends BaseClass {
     public void WithdrawFromStockAccountTest(){
         DashboardPage dashboardPage = LoginTest();
         StockTradingPage stocks = dashboardPage.openStockTradingPage();
+        stocks.toggleBalance();
         WithdrawFundPage withdrawFundPage = stocks.openWithdrawMoneyPage();
         ConfirmTransactionPage confirm = withdrawFundPage.withdrawFundsToWallet("1000.00");
-        confirm.enterTransactionPin("123456");
+        confirm.enterTransactionPin(data.transactionPin,data.withdrawalModule);
         confirm.clickConfirmTransactionButton();
+        confirm.waitForSuccessMessage(5);
         test.log(Status.PASS, "Withdrawal Testcase Passed");
     }
 
@@ -232,11 +235,23 @@ public class MainTestSuite extends BaseClass {
         InvestmentsPage investmentsPage = dashboardPage.openInvestments();
         StockTradingPage stocks = investmentsPage.openStockTradingPage();
         TradeStocksPage tradeStocksPage = stocks.tradeStock();
-        var stockResult = tradeStocksPage.searchStock("ACCESSCORP");
+        var stockResult = tradeStocksPage.searchStock(data.stockToBuy);
         var stockPurchase = stockResult.buyStock();
         //stockPurchase.SeeBids();
-        var buyStock = stockPurchase.BuyStock("10");
-        buyStock.enterTransactionPin("123456");
+        var buyStock = stockPurchase.BuyStock("10",data.uatCSCSNumber);
+        try {
+            buyStock.enterTransactionPin(data.transactionPin, data.stocksModule);
+        }catch (Exception e){
+            tradeStocksPage.goBack();
+            tradeStocksPage.goBack();
+            tradeStocksPage.scrollStockList();
+            tradeStocksPage.searchStock(data.newStock);
+            stockResult.buyStock();
+            //stockPurchase.SeeBids();
+            stockPurchase.BuyStock("10",data.uatCSCSNumber);
+            buyStock.enterTransactionPin(data.transactionPin, data.stocksModule);
+
+        }
         test.log(Status.PASS, "See Bids Page Opened Successfully");
     }
 
@@ -246,11 +261,11 @@ public class MainTestSuite extends BaseClass {
         InvestmentsPage investmentsPage = dashboardPage.openInvestments();
         StockTradingPage stocks = investmentsPage.openStockTradingPage();
         TradeStocksPage tradeStocksPage = stocks.tradeStock();
-        var stockResult = tradeStocksPage.searchStock("ABBEYBDS");
+        var stockResult = tradeStocksPage.searchStock(data.stockToSell);
         var stockPurchase = stockResult.sellStock();
         //stockPurchase.SeeBids();
-        var sellStock = stockPurchase.SellStock("10");
-        sellStock.enterTransactionPin("123456");
+        var sellStock = stockPurchase.SellStock("10",data.uatCSCSNumber);
+        sellStock.enterTransactionPin(data.transactionPin,data.stocksModule);
         test.log(Status.PASS, "See Bids Page Opened Successfully");
     }
 
@@ -284,12 +299,12 @@ public class MainTestSuite extends BaseClass {
         StockTradingPage stocks = investmentsPage.openStockTradingPage();
         WatchListPage watchListPage = stocks.openWatchListPage();
 
-        if(watchListPage.verifyStocksAddedToWatchList("conoil")){
+        if(watchListPage.verifyStocksAddedToWatchList(data.stockToAdd.toLowerCase())){
             watchListPage.removeStockFromWatchList();
             test.log(Status.PASS, "Stocks found in watchlist");
         }else {
             AddToWatchListPage addToWatchListPage = watchListPage.openAddToWatchListPage();
-            if(addToWatchListPage.addStockToWatchlist("conoil", "7.0")){
+            if(addToWatchListPage.addStockToWatchlist(data.stockToAdd.toLowerCase(), data.alertPrice)){
                 test.log(Status.PASS, "Stocks successfully added");
             }
         }
@@ -299,19 +314,30 @@ public class MainTestSuite extends BaseClass {
 //**************************************FIXED DEPOSIT************************************
 
     @Test
-    public void investFixedDeposit() throws IOException {
+    public void investFixedDepositWithCard() {
         DashboardPage dashboardPage = LoginTest();
-        InvestmentsPage investmentsPage = dashboardPage.openInvestments();
-        FixedIncomePage fixedIncomePage = investmentsPage.openFixedIncomePage();
-        var fundingType = fixedIncomePage.selectInvestmentPlan();
-        try {
-            fundingType.CardFunding();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        //fundingType.goBack();
-        var fundwithstockbroking = fundingType.StockBroking();
-        fundwithstockbroking.terminateInvestment();
+        FixedIncomePage fixedIncomePage = dashboardPage.swipeToOpenFixedIncomePage();
+        var fundingType = fixedIncomePage.selectInvestmentPlan(data.plan, data.fd_amount);
+        var fixedIncomeViaCard = fundingType.CardFunding();
+        fixedIncomeViaCard.verifyFixedIncomePage();
+    }
+
+    @Test
+    public void investFixedDepositViaStockBroking() {
+        DashboardPage dashboardPage = LoginTest();
+        FixedIncomePage fixedIncomePage = dashboardPage.swipeToOpenFixedIncomePage();
+        var fundingType = fixedIncomePage.selectInvestmentPlan(data.plan, data.fd_amount);
+        var fixedIncomeViaCard = fundingType.StockBroking();
+        fixedIncomeViaCard.verifyFixedIncomePage();
+    }
+
+    @Test
+    public void investFixedDepositViaWallet() {
+        DashboardPage dashboardPage = LoginTest();
+        FixedIncomePage fixedIncomePage = dashboardPage.swipeToOpenFixedIncomePage();
+        var fundingType = fixedIncomePage.selectInvestmentPlan(data.plan, data.fd_amount);
+        var fixedIncomeViaCard = fundingType.WalletFunding();
+        fixedIncomeViaCard.verifyFixedIncomePage();
     }
 
 
@@ -320,6 +346,7 @@ public class MainTestSuite extends BaseClass {
     public void fundSavingsAccountTest(){
         DashboardPage dashboardPage = LoginTest();
         SavingsPage savings = dashboardPage.swipeToOpenSavingsPage();
+        savings.toggleBalance();
         var accountBal = savings.returnBalance();
         FundZsaveAccountPage fundSavingsPage = savings.openFundAccountPage();
         fundSavingsPage.fundAccount(data.amountToFund,accountBal);
@@ -331,10 +358,20 @@ public class MainTestSuite extends BaseClass {
         FundsTransferPage fundsTransfer = savings.openTransferPage();
         pages.Savings.WithdrawFundPage withdrawFundPage = fundsTransfer.openWithdrawToBank();
         ConfirmTransactionPage confirm = withdrawFundPage.withdrawFundsToBank("1000.00");
-        confirm.enterTransactionPin("123456");
+        confirm.enterTransactionPin(data.transactionPin, data.withdrawalModule);
         confirm.clickConfirmTransactionButton();
         confirm.processingWithdrawal();
         test.log(Status.PASS, "Withdrawal Testcase Passed");
+    }
+
+    @Test
+    public void CreatePlan(){
+        DashboardPage dashboardPage = LoginTest();
+        SavingsPage savings = dashboardPage.swipeToOpenSavingsPage();
+        SavingsPlanPage savingsPlanPage = savings.savingsPlanPage();
+        savingsPlanPage.createNewPlan(data.planName,data.planAmount,data.lockPlan);
+        savingsPlanPage.viewPlanDetails(data.planName);
+        savingsPlanPage.topupPlan(data.planName,data.topupAmount,data.topUpFundingMethod);
     }
 
 

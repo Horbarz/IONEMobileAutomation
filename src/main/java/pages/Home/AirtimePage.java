@@ -70,7 +70,7 @@ public class AirtimePage {
 
         driver.findElement(AppiumBy.accessibilityId("Pay ₦"+amount+".00")).click();
 
-        utils.enterTransactionPin("123456");
+        utils.enterTransactionPin("123456","bills");
 
 //        WebElement pinBox = driver.findElement(AppiumBy.xpath("//*[@text='|']"));
 //        pinBox.click();

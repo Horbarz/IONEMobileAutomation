@@ -53,7 +53,7 @@ public class LinkSwitchAccountPage {
 
         utils.isTextPresent("Linking ...");
 
-        utils.delay(6);
+        utils.delay(3);
 
         utils.containsText("Email Address");
         utils.containsText("Name");

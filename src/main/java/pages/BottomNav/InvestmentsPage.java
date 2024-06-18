@@ -5,19 +5,23 @@ import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.WebDriver;
 import pages.Home.FixedIncomePage;
 import pages.Home.StockTradingPage;
+import pages.Utils;
 
 public class InvestmentsPage {
     private AppiumDriver driver;
 
+    Utils utils;
+
 
     public InvestmentsPage(AppiumDriver driver){
+
         this.driver = driver;
+
+        utils = new Utils(driver);
     }
 
     public FixedIncomePage openFixedIncomePage(){
-//        FlutterFinder flutterFinder = new FlutterFinder(driver);
-//        FlutterElement fixed_income_element = flutterFinder.byValueKey("Fixed Income");
-        driver.findElement(AppiumBy.accessibilityId("")).click();
+        utils.containsText("Fixed Income").click();
         return new FixedIncomePage(driver);
     }
 

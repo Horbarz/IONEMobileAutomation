@@ -2,16 +2,25 @@ package pages;
 
 public class TestData {
 
+    //Mailosaur Credentials
+    public String apiKey = "2y1mJCcAxIYraJ5ILGIkgmOnqXwbwAOZ";
+    public String serverId = "zepiyj08";
+    public String serverDomain = "@"+serverId+".mailosaur.net";
+
+
     //Production Login
     public String productionUserId = "12487";
     public String productionPassword = "P@ssword105";
 
 
     public boolean staging = true;
-    public String firstName = "Jacob";
-    public String middleName = "Isola";
+    public String firstName = "Isaac";
+    public String middleName = "Benjamin";
     public String lastName = "Kantiyok";
-    public String email = "jacobpaul25@yopmail.com";
+    public String newEmail = "isaacbenjamin"+Utils.generateRandomNumber(50)+serverDomain;
+
+    public String email = "isaacbenjamin0"+serverDomain; //isaacpaul15,isaacbenjamin0
+
     public String password = "P@ssword1";
 
 
@@ -51,5 +60,38 @@ public class TestData {
     //Savings
     public String amountToFund = "2000.00";
 
+    //Stocks
+    public String stockToBuy = "MBENEFIT"; //IMG,INFINITY,JAPAULGOLD,JULI,LIVESTOCK,MBENEFIT
+
+    public String stockToSell = "GTCO";
+
+    public String transactionPin = "123456";
+
+    public String stocksModule = "stocks";
+
+    public String withdrawalModule = "withdrawal";
+
+    public String transferModule = "transfer";
+
+    public String uatCSCSNumber = "0012345670";
+
+    public String newStock = "JULI";//IMG,INFINITY,JAPAULGOLD,JULI,LIVESTOCK,MBENEFIT
+
+    public String alertPrice = "5.0";
+
+    public String stockToAdd = "conoil";
+
+    //Fixed income investment
+    public String plan = "Fixed Deposit Investment";
+    public String fd_amount = "110,000.00";
+
+    //Savings Plan
+    public String planName = "Kilo Automated";
+    public String planAmount = "100,000.00";
+    public boolean lockPlan = false;
+
+    public String topupAmount = "1,000.00";
+
+    public String topUpFundingMethod = "card";
 
 }

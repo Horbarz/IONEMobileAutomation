@@ -6,12 +6,16 @@ import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import pages.Utils;
 
 import java.util.Random;
 
 public class CreateAccountPage {
 
     private AppiumDriver driver;
+
+    Utils utils;
+
     private By firstnameField = By.xpath("//*[@text='First name']");
 
     private By firstnameIndex = By.xpath("//*[@index='7']");
@@ -27,7 +31,10 @@ public class CreateAccountPage {
     private By createAccountBtn = By.xpath("//*[@content-desc='Create Account']");
 
     public CreateAccountPage(AppiumDriver driver){
+
         this.driver = driver;
+        utils = new Utils(driver);
+
     }
 
     public VerifyTokenPage enterNewUserInfo(String firstname, String middlename, String lastname, String email){
@@ -62,11 +69,7 @@ public class CreateAccountPage {
         driver.findElement(AppiumBy.xpath("(//*[contains(@content-desc,'Create Account')])[2]")).click();
 
         //Send verification code
-        try {
-            Thread.sleep(30000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        utils.delay(10);
 
         return new VerifyTokenPage(driver);
     }

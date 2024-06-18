@@ -28,11 +28,29 @@ public class DashboardPage {
     }
 
     public FixedIncomePage openFixedIncomePage(){
+        utils.delay(10);
         WebElement fixedIncomeEle = driver.findElement(AppiumBy.accessibilityId("Fixed Service Box\n" +
                 "Fixed Income"));
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
         wait.until(ExpectedConditions.visibilityOf(fixedIncomeEle));
         fixedIncomeEle.click();
+        return new FixedIncomePage(driver);
+    }
+
+    public FixedIncomePage swipeToOpenFixedIncomePage(){
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        Utils utils = new Utils(driver);
+        WebElement horizontalScroll = driver.findElement(AppiumBy.accessibilityId("Portfolio Balance\n" +
+                "XXXXX.XX"));
+        utils.scroll(Utils.ScrollDirection.LEFT,0.5, horizontalScroll);
+        utils.scroll(Utils.ScrollDirection.LEFT,0.5, horizontalScroll);
+        driver.findElement(AppiumBy.xpath("//android.widget.ImageView[@content-desc=\"Investment details\n" +
+                "Fixed income Balance\n" +
+                "XXXXX.XX\"]/android.view.View")).click();
         return new FixedIncomePage(driver);
     }
 
